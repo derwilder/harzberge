@@ -1,6 +1,6 @@
 {
   "settings": {
-    "name": "Harzberge.de",
+    "name": "Harzberge.de Ferienwohnung",
     "currentPage": "index.html",
     "theme": {
       "name": "mobirise4",
@@ -41,13 +41,14 @@
     "screenshot": "screenshot.png",
     "robotsSwitcher": false,
     "robotsText": "User-agent: *\r\nDisallow: /cgi-bin\r\n",
-    "favicon": "",
+    "favicon": "@PROJECT_PATH@/assets/images/mountain-128x128-1.png",
     "": "on",
     "sitemapSwitcher": true,
     "sitemapSwitcherAuto": true,
     "siteUrl": "https://derwilder.github.io/harzberge/",
     "noImageResize": "",
-    "google-analytics": "<!-- Global site tag (gtag.js) - Google Analytics -->\n<script async src=\"https://www.googletagmanager.com/gtag/js?id=UA-62025319-1\"></script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag('js', new Date());\n\n  gtag('config', 'UA-62025319-1');\n</script>"
+    "google-analytics": "<!-- Global site tag (gtag.js) - Google Analytics -->\n<script async src=\"https://www.googletagmanager.com/gtag/js?id=UA-62025319-1\"></script>\n<script>\n  window.dataLayer = window.dataLayer || [];\n  function gtag(){dataLayer.push(arguments);}\n  gtag('js', new Date());\n\n  gtag('config', 'UA-62025319-1');\n</script>",
+    "pwa-switcher": false
   },
   "pages": {
     "index.html": {
