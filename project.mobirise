@@ -57,7 +57,18 @@
     "pwa-switcher": false,
     "imageResize": true,
     "site_lang": "em",
-    "cookiesAlert": false,
+    "cookiesAlert": {
+      "customDialogSelector": false,
+      "colorText": "#424a4d",
+      "colorBg": "#eaeff1",
+      "colorButton": "",
+      "colorLink": "#424a4d",
+      "underlineLink": true,
+      "opacity": "99",
+      "opacityOverlay": "80",
+      "text": "Diese Internetseite verwendet Cookies und Google Analytics für die Analyse und Statistik. Siehe <a href='impressum.html'>Datenschutz</a>.",
+      "textButton": "Zustimmen"
+    },
     "gdpr": false,
     "publishChangesOnly": true
   },
