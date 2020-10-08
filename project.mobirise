@@ -66,7 +66,7 @@
       "underlineLink": true,
       "opacity": "99",
       "opacityOverlay": "80",
-      "text": "Diese Internetseite verwendet Cookies und Google Analytics für die Analyse und Statistik. Siehe <a href='impressum.html'>Datenschutz</a>.",
+      "text": "Diese Internetseite verwendet Cookies und Google Analytics für die Analyse und Statistik - <a href='impressum.html'>siehe Impressum</a>.",
       "textButton": "Zustimmen"
     },
     "gdpr": false,
