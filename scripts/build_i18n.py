@@ -19,8 +19,11 @@ T = {
 "Auf Google Maps ansehen": ("View on Google Maps", "Ver en Google Maps"),
 "von 5 · 15 Bewertungen auf Google": ("of 5 · 15 reviews on Google", "de 5 · 15 opiniones en Google"),
 "★ 4,5 · 15 Google-Bewertungen": ("★ 4.5 · 15 Google reviews", "★ 4,5 · 15 opiniones en Google"),
-"Wie wird die Ferienwohnung bewertet?": ("How is the apartment rated?", "¿Cómo se valora el apartamento?"),
-"Gäste bewerten die Ferienwohnung bei Harz-Travel und auf Google Maps. Die aktuelle Gesamtnote von Harz-Travel steht oben auf dieser Seite, das Google-Profil ist über „Auf Google Maps ansehen“ verlinkt.": ("Guests rate the apartment on Harz-Travel and on Google Maps. The current overall score from Harz-Travel is shown at the top of this page, and the Google profile is linked via “View on Google Maps”.", "Los huéspedes valoran el apartamento en Harz-Travel y en Google Maps. La nota global actual de Harz-Travel aparece al principio de esta página y el perfil de Google está enlazado en «Ver en Google Maps»."),
+"Wie kann ich die Ferienwohnung bewerten?": ("How can I rate the apartment?", "¿Cómo puedo valorar el apartamento?"),
+"Nach Ihrem Aufenthalt freuen wir uns über Ihre Bewertung bei": ("After your stay we would be glad about your review on", "Tras su estancia nos alegraremos de su valoración en"),
+" und bei": (" and on", " y en"),
+". Vielen Dank!": (". Thank you!", ". ¡Gracias!"),
+"Nach Ihrem Aufenthalt freuen wir uns über Ihre Bewertung bei Harz-Travel und bei Google Maps (Profil „Ferienwohnung Harzberge“). Vielen Dank!": ("After your stay we would be glad about your review on Harz-Travel and on Google Maps (profile “Ferienwohnung Harzberge”). Thank you!", "Tras su estancia nos alegraremos de su valoración en Harz-Travel y en Google Maps (perfil «Ferienwohnung Harzberge»). ¡Gracias!"),
 "Zum Inhalt springen": ("Skip to content", "Saltar al contenido"),
 "Wohnung": ("Apartment", "Apartamento"),
 "Fotos": ("Photos", "Fotos"),
@@ -185,24 +188,6 @@ T = {
 "Küche": ("Kitchen", "Cocina"),
 }
 
-RATE = {
-    "de": "★ {n} von 5 · {c} Bewertungen bei Harz-Travel",
-    "en": "★ {n} of 5 · {c} reviews on Harz-Travel",
-    "es": "★ {n} de 5 · {c} opiniones en Harz-Travel",
-}
-
-
-def rate_chip(code):
-    d = json.loads((ROOT / "data" / "bewertungen.json").read_text())
-    n = f"{d['gesamt']:.1f}"
-    if code != "en": n = n.replace(".", ",")
-    return RATE[code].format(n=n, c=d["anzahl"])
-
-
-def put_rate(h, code):
-    return re.sub(r'(<!--bew-->.*?class="chip-rate">)[^<]*(</a><!--/bew-->)', lambda m: m.group(1) + rate_chip(code) + m.group(2), h, flags=re.S)
-
-
 LANGS = {"en": (0, "en", "en_GB"), "es": (1, "es", "es_ES")}
 PAIRS = {k: v for k, v in T.items()}
 
@@ -269,7 +254,6 @@ def build(code):
     h = re.sub(r'\b(href|src|data-full|srcset)="((?:css|js|img|fonts|data)/|favicon\.svg|impressum\.html)', r'\1="../\2', h)
     h = re.sub(r'(srcset="[^"]*?, )((?:img)/)', r'\1../\2', h)
     h = h.replace("0178 / 4307460", "+49 178 4307460").replace("03943 / 43074", "+49 3943 43074")
-    h = put_rate(h, code)
     out = ROOT / code
     out.mkdir(exist_ok=True)
     (out / "index.html").write_text(h)
@@ -283,7 +267,6 @@ if __name__ == "__main__":
     alt = "".join(f'<link rel="alternate" hreflang="{c}" href="{SITE}/{p}">' for c, p in [("de", "index.html"), ("en", "en/index.html"), ("es", "es/index.html"), ("x-default", "index.html")])
     s = re.sub(r'<link rel="alternate" hreflang[^>]*>', "", s)
     s = s.replace('<link rel="canonical"', alt + '<link rel="canonical"', 1)
-    s = put_rate(s, "de")
     src.write_text(s)
     for c in LANGS:
         m = build(c)
