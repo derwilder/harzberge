@@ -10,15 +10,18 @@
   btn.addEventListener('click', () => btn.setAttribute('aria-expanded', list.classList.toggle('open')));
   list.addEventListener('click', e => { if (e.target.closest('a')) { list.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); } });
 
-  // Hero-Video: lädt erst nach Klick (Datenschutz, YouTube bekommt vorher keine Daten)
-  const hero = $('.hero[data-video]'), vbtn = $('.video-btn');
-  if (hero && vbtn) vbtn.addEventListener('click', () => {
-    const id = hero.dataset.video, box = $('.hero-video', hero), f = document.createElement('iframe');
-    f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${id}&playsinline=1&rel=0&modestbranding=1&disablekb=1`;
-    f.title = ''; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1; f.allow = 'autoplay; encrypted-media'; f.referrerPolicy = 'strict-origin-when-cross-origin';
-    f.addEventListener('load', () => setTimeout(() => box.classList.add('on'), 1200));
-    box.appendChild(f); vbtn.remove();
-  });
+  // Hero-Video: eigenes Video (kein Drittanbieter), startet automatisch nur bei schnellem Netz, ohne Datensparmodus/reduzierte Bewegung, am Desktop
+  const vid = $('.hero-video video'), cn = navigator.connection || {};
+  const okVideo = vid && matchMedia('(min-width:861px)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches
+    && !cn.saveData && (!cn.effectiveType || cn.effectiveType === '4g');
+  if (okVideo) {
+    const start = () => {
+      vid.src = vid.dataset.src;
+      vid.addEventListener('playing', () => vid.parentNode.classList.add('on'), { once: true });
+      vid.play().catch(() => {});
+    };
+    if (document.readyState === 'complete') setTimeout(start, 300); else addEventListener('load', () => setTimeout(start, 300));
+  }
 
   // Lightbox
   const dlg = $('dialog.lb'), items = $$('.gallery button');
