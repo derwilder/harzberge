@@ -24,6 +24,8 @@ T = {
 "und bei": ("and on", "y en"),
 ". Vielen Dank!": (". Thank you!", ". ¡Gracias!"),
 "Nach Ihrem Aufenthalt freuen wir uns über Ihre Bewertung bei Harz-Travel und bei Google Maps (Profil „Ferienwohnung Harzberge“). Vielen Dank!": ("After your stay we would be glad about your review on Harz-Travel and on Google Maps (profile “Ferienwohnung Harzberge”). Thank you!", "Tras su estancia nos alegraremos de su valoración en Harz-Travel y en Google Maps (perfil «Ferienwohnung Harzberge»). ¡Gracias!"),
+"Ferienwohnung Wernigerode, 90 m² am Schloss, ab 50 € · Harzberge.de": ('Holiday apartment Wernigerode, 90 m² below the castle, from €50 · Harzberge.de', 'Apartamento vacacional Wernigerode, 90 m² junto al castillo, desde 50 € · Harzberge.de'),
+"Familienfreundliche 90-m²-Ferienwohnung in Wernigerode am Schloss und Lustgarten. Ab 50 € pro Nacht, Parkplatz und WLAN gratis, Hunde willkommen. Jetzt anfragen.": ('Family-friendly 90 m² holiday apartment in Wernigerode by the castle and Lustgarten park. From €50 per night, free parking and Wi-Fi, dogs welcome. Enquire now.', 'Apartamento vacacional familiar de 90 m² en Wernigerode junto al castillo y al parque Lustgarten. Desde 50 € por noche, aparcamiento y Wi-Fi gratuitos, perros bienvenidos. Consulte ahora.'),
 "Zum Inhalt springen": ("Skip to content", "Saltar al contenido"),
 "Wohnung": ("Apartment", "Apartamento"),
 "Fotos": ("Photos", "Fotos"),

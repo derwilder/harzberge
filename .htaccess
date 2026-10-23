@@ -1,5 +1,13 @@
 # harzberge.de: rein statische Seite. PHP und andere Skripte werden nicht ausgeführt.
 Options -Indexes -ExecCGI
+ErrorDocument 404 /404.html
+
+# Reste der alten Seite (Mobirise) nicht ausliefern
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^page2\.html$ / [R=301,L]
+  RewriteRule ^(assets/|project\.mobirise$) - [R=404,L]
+</IfModule>
 <IfModule mod_authz_core.c>
   <FilesMatch "(?i)\.(php[0-9]?|phtml|phar|pl|py|cgi|sh)$">
     Require all denied
