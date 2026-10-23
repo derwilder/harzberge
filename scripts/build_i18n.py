@@ -240,6 +240,7 @@ def build(code):
     # Pfade zu gemeinsamen Dateien
     h = re.sub(r'\b(href|src|data-full|srcset)="((?:css|js|img|fonts|data)/|favicon\.svg|impressum\.html)', r'\1="../\2', h)
     h = re.sub(r'(srcset="[^"]*?, )((?:img)/)', r'\1../\2', h)
+    h = h.replace("0178 / 4307460", "+49 178 4307460").replace("03943 / 43074", "+49 3943 43074")
     out = ROOT / code
     out.mkdir(exist_ok=True)
     (out / "index.html").write_text(h)
