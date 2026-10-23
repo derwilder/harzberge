@@ -185,3 +185,10 @@ footer h3{color:#fff;font-size:1.05rem}footer a{color:#fff}
 
 .sent{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:2rem;outline:none}.sent h3{font-size:1.6rem}.sent[hidden]{display:none}
 #anfrage-form[hidden]{display:none}
+
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.lang{display:flex;gap:.45rem;align-items:center}
+.nav ul .lang a{display:block;padding:0;border:0;opacity:.6;line-height:0}
+.nav ul .lang a svg{width:28px;height:19px;border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.35)}
+.nav ul .lang a[aria-current]{opacity:1;box-shadow:none}.nav ul .lang a:hover{opacity:1;text-decoration:none}
+@media(max-width:860px){.nav ul li.lang{padding:.85rem .2rem;border-bottom:1px solid rgba(255,255,255,.1)}}

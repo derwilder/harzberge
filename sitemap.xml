@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://harzberge.de/</loc></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url><loc>https://harzberge.de/</loc><xhtml:link rel="alternate" hreflang="de" href="https://harzberge.de/index.html"/><xhtml:link rel="alternate" hreflang="en" href="https://harzberge.de/en/index.html"/><xhtml:link rel="alternate" hreflang="es" href="https://harzberge.de/es/index.html"/></url>
+  <url><loc>https://harzberge.de/en/index.html</loc></url>
+  <url><loc>https://harzberge.de/es/index.html</loc></url>
   <url><loc>https://harzberge.de/impressum.html</loc></url>
 </urlset>

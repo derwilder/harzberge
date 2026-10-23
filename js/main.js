@@ -48,7 +48,16 @@
   if (qa) { pair(qa, qb); pair(fa, fb); }
 
   // Belegungskalender: liest data/belegung.json (täglich von Harz-Travel abgeglichen)
-  const MON = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+  const lang = document.documentElement.lang || 'de', base = lang === 'de' ? '' : '../';
+  const TX = {
+    de: { mon: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'], wd: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'], busy: 'belegt', swap: 'Wechseltag', free: 'frei', loc: 'de-DE',
+      hint: 'Tag anklicken, um Anreise und Abreise zu wählen.', stand: 'Stand', from: 'übernommen von Harz-Travel', down: 'Der Kalender ist gerade nicht erreichbar. Bitte fragen Sie Ihren Wunschtermin einfach an.', bad: 'In diesem Zeitraum ist die Wohnung laut Kalender bereits belegt. Bitte wählen Sie andere Daten.' },
+    en: { mon: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'], wd: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'], busy: 'booked', swap: 'changeover day', free: 'free', loc: 'en-GB',
+      hint: 'Click a day to choose arrival and departure.', stand: 'Updated', from: 'taken from Harz-Travel', down: 'The calendar is currently unavailable. Please simply enquire about your preferred dates.', bad: 'According to the calendar, the apartment is already booked in this period. Please choose other dates.' },
+    es: { mon: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'], wd: ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá', 'Do'], busy: 'ocupado', swap: 'día de cambio', free: 'libre', loc: 'es-ES',
+      hint: 'Haga clic en un día para elegir llegada y salida.', stand: 'Actualizado', from: 'procede de Harz-Travel', down: 'El calendario no está disponible en este momento. Envíenos su consulta con las fechas deseadas.', bad: 'Según el calendario, el apartamento ya está ocupado en este periodo. Elija otras fechas.' }
+  }[lang];
+  const MON = TX.mon;
   const days = {};
   const pad = x => String(x).padStart(2, '0');
   const key = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
@@ -71,10 +80,10 @@
         for (let d = 1; d <= n; d++) {
           const k = key(y, m, d), v = days[k], past = k < today;
           const cls = past ? 'past' : v === 'b' ? 'busy' : v === 'a' || v === 'd' || v === 'w' ? 'half' : 'free';
-          const label = past ? '' : v === 'b' ? 'belegt' : v ? 'Wechseltag' : 'frei';
-          g += `<button type="button" class="day ${cls}" data-d="${k}" ${past || v === 'b' ? 'disabled' : ''} aria-label="${d}. ${MON[m]} ${y} ${label}">${d}</button>`;
+          const label = past ? '' : v === 'b' ? TX.busy : v ? TX.swap : TX.free;
+          g += `<button type="button" class="day ${cls}" data-d="${k}" ${past || v === 'b' ? 'disabled' : ''} aria-label="${d} ${MON[m]} ${y} ${label}">${d}</button>`;
         }
-        box.insertAdjacentHTML('beforeend', `<div class="cal-m"><h4>${MON[m]} ${y}</h4><div class="cal-wd"><span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span></div><div class="cal-g">${g}</div></div>`);
+        box.insertAdjacentHTML('beforeend', `<div class="cal-m"><h4>${MON[m]} ${y}</h4><div class="cal-wd">${TX.wd.map(x => `<span>${x}</span>`).join('')}</div><div class="cal-g">${g}</div></div>`);
       }
       paint();
     };
@@ -93,11 +102,11 @@
     });
     addEventListener('resize', render);
     [fa, fb].forEach(el => el.addEventListener('change', paint));
-    fetch('data/belegung.json').then(r => r.json()).then(d => {
+    fetch(base + 'data/belegung.json').then(r => r.json()).then(d => {
       Object.assign(days, d.tage);
-      const s = new Date(d.stand); if (!isNaN(s)) $('#cal-stand').textContent = `Tag anklicken, um Anreise und Abreise zu wählen. Stand: ${s.toLocaleDateString('de-DE')}, übernommen von Harz-Travel.`;
+      const s = new Date(d.stand); if (!isNaN(s)) $('#cal-stand').textContent = `${TX.hint} ${TX.stand}: ${s.toLocaleDateString(TX.loc)}, ${TX.from}.`;
       render(); checkRange();
-    }).catch(() => { box.innerHTML = '<p class="muted">Der Kalender ist gerade nicht erreichbar. Bitte fragen Sie Ihren Wunschtermin einfach an.</p>'; });
+    }).catch(() => { box.innerHTML = `<p class="muted">${TX.down}</p>`; });
   }
 
   // Wunschzeitraum prüfen (belegte Nächte)
@@ -106,7 +115,7 @@
     if (!warn) return true;
     const bad = fa.value && fb.value && !rangeFree(fa.value, fb.value);
     warn.hidden = !bad;
-    warn.textContent = bad ? 'In diesem Zeitraum ist die Wohnung laut Kalender bereits belegt. Bitte wählen Sie andere Daten.' : '';
+    warn.textContent = bad ? TX.bad : '';
     return !bad;
   }
   [fa, fb].forEach(el => el && el.addEventListener('change', checkRange));
