@@ -17,7 +17,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.65 var(
 img{max-width:100%;height:auto;display:block}
 a{color:inherit}
 h1,h2,h3{font-family:var(--display);line-height:1.08;margin:0 0 .5em;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
-h1{font-size:clamp(2.8rem,8.5vw,6rem);font-weight:800;letter-spacing:-.035em}
+h1{font-size:clamp(2.1rem,8.5vw,6rem);font-weight:800;letter-spacing:-.035em}
 h2{font-size:clamp(1.9rem,4.5vw,3rem)}h3{font-size:1.2rem;letter-spacing:-.01em}
 p{margin:0 0 1em}
 .wrap{width:min(1160px,100% - 32px);margin-inline:auto;padding-inline:env(safe-area-inset-left,0px) env(safe-area-inset-right,0px)}
@@ -196,3 +196,4 @@ footer h3{color:#fff;font-size:1.05rem}footer a{color:#fff}
 .btns{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}.btns .btn.light{margin-top:0}.btn.ghost{background:transparent;color:var(--on-dark);border:1px solid rgba(255,255,255,.35);margin-top:0}
 .rating{margin:0 0 .8rem;font-size:1rem;color:var(--on-dark)}.rating .stars{color:var(--lamp);letter-spacing:.1em}.rating b{font-size:1.15rem}
 .chips .chip-rate{text-decoration:none;color:inherit;font-weight:600}.chips .chip-rate:hover{text-decoration:underline}
+@media(max-width:700px){.video-btn{top:76px;bottom:auto}}
