@@ -11,6 +11,10 @@ ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://harzberge.de"
 
 T = {
+"▶ Video abspielen": ("▶ Play video", "▶ Reproducir vídeo"),
+"Lädt das Hintergrundvideo von YouTube": ("Loads the background video from YouTube", "Carga el vídeo de fondo desde YouTube"),
+"Der Belegungskalender benötigt JavaScript. Die aktuellen Belegtage stehen maschinenlesbar in": ("The availability calendar needs JavaScript. Current booked days are available in machine-readable form in", "El calendario de disponibilidad necesita JavaScript. Los días ocupados actuales figuran en formato legible por máquina en"),
+", oder fragen Sie Ihren Wunschtermin einfach an.": (", or simply enquire about your preferred dates.", ", o consulte directamente sus fechas deseadas."),
 "Zum Inhalt springen": ("Skip to content", "Saltar al contenido"),
 "Wohnung": ("Apartment", "Apartamento"),
 "Fotos": ("Photos", "Fotos"),

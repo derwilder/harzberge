@@ -9,8 +9,13 @@
 - Ausstattung: Wohn- und Essbereich, Küche, Bad mit Regendusche, Schlafzimmer mit Doppelbett, Zimmer mit zwei Einzelbetten, Garten mit Holzkohlegrill, kostenloses WLAN, kostenloser Parkplatz, Kinderstuhl und Kinderbett auf Wunsch kostenlos
 - Preis: 50 EUR pro Nacht für 2 Personen, jede weitere Person 15 EUR pro Nacht (inkl. Handtücher, WLAN, Strom, Wasser, Parkplatz)
 - Zusatzkosten: Endreinigung 30 EUR einmalig; Bettwäsche 5 EUR pro Bettensatz (auf Wunsch); Hund 25 EUR pauschal pro Aufenthalt
-- Kontakt: info@harzberge.de, Tel. 0178 / 4307460 und 03943 / 43074
+- Kontakt: info@harzberge.de, Tel. +49 178 4307460 und +49 3943 43074
+- Buchung: Anfrageformular auf der Startseite (Abwicklung über das Portal Harz-Travel), Hunde willkommen (25 EUR pauschal)
+- Belegung: aktuelle belegte Tage maschinenlesbar unter https://harzberge.de/data/belegung.json (b = belegt, a = nur Anreise, d = nur Abreise, w = Wechseltag; fehlende Tage sind frei; Stand im Feld "stand")
 
 ## Seiten
-- [Startseite mit allen Infos, Fotos, Preisen, FAQ und Anfrage](https://harzberge.de/)
+- [Startseite (Deutsch) mit allen Infos, Fotos, Preisen, FAQ und Anfrage](https://harzberge.de/)
+- [English version](https://harzberge.de/en/index.html)
+- [Versión en español](https://harzberge.de/es/index.html)
+- [Belegung als JSON](https://harzberge.de/data/belegung.json)
 - [Impressum & Datenschutz](https://harzberge.de/impressum.html)

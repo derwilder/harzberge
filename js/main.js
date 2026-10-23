@@ -10,16 +10,15 @@
   btn.addEventListener('click', () => btn.setAttribute('aria-expanded', list.classList.toggle('open')));
   list.addEventListener('click', e => { if (e.target.closest('a')) { list.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); } });
 
-  // Hero-Video (wie auf der alten Seite): nur ohne Bewegungs- und Datensparwunsch
-  const hero = $('.hero[data-video]');
-  const saver = (navigator.connection && navigator.connection.saveData) || matchMedia('(prefers-reduced-motion:reduce)').matches;
-  if (hero && !saver) {
+  // Hero-Video: lädt erst nach Klick (Datenschutz, YouTube bekommt vorher keine Daten)
+  const hero = $('.hero[data-video]'), vbtn = $('.video-btn');
+  if (hero && vbtn) vbtn.addEventListener('click', () => {
     const id = hero.dataset.video, box = $('.hero-video', hero), f = document.createElement('iframe');
     f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${id}&playsinline=1&rel=0&modestbranding=1&disablekb=1`;
     f.title = ''; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1; f.allow = 'autoplay; encrypted-media'; f.referrerPolicy = 'strict-origin-when-cross-origin';
-    f.addEventListener('load', () => setTimeout(() => box.classList.add('on'), 1500));
-    box.appendChild(f);
-  }
+    f.addEventListener('load', () => setTimeout(() => box.classList.add('on'), 1200));
+    box.appendChild(f); vbtn.remove();
+  });
 
   // Lightbox
   const dlg = $('dialog.lb'), items = $$('.gallery button');
