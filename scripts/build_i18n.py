@@ -21,7 +21,7 @@ T = {
 "★ 4,5 · 15 Google-Bewertungen": ("★ 4.5 · 15 Google reviews", "★ 4,5 · 15 opiniones en Google"),
 "Wie kann ich die Ferienwohnung bewerten?": ("How can I rate the apartment?", "¿Cómo puedo valorar el apartamento?"),
 "Nach Ihrem Aufenthalt freuen wir uns über Ihre Bewertung bei": ("After your stay we would be glad about your review on", "Tras su estancia nos alegraremos de su valoración en"),
-" und bei": (" and on", " y en"),
+"und bei": ("and on", "y en"),
 ". Vielen Dank!": (". Thank you!", ". ¡Gracias!"),
 "Nach Ihrem Aufenthalt freuen wir uns über Ihre Bewertung bei Harz-Travel und bei Google Maps (Profil „Ferienwohnung Harzberge“). Vielen Dank!": ("After your stay we would be glad about your review on Harz-Travel and on Google Maps (profile “Ferienwohnung Harzberge”). Thank you!", "Tras su estancia nos alegraremos de su valoración en Harz-Travel y en Google Maps (perfil «Ferienwohnung Harzberge»). ¡Gracias!"),
 "Zum Inhalt springen": ("Skip to content", "Saltar al contenido"),
