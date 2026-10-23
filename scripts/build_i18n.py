@@ -246,8 +246,9 @@ def build(code):
     h = h.replace('<html lang="de">', f'<html lang="{lang}">')
     h = h.replace('content="de_DE"', f'content="{loc}"')
     url = f"{SITE}/{code}/index.html"
-    h = h.replace(f'{SITE}/index.html"', f'{url}"')
-    alt = "".join(f'<link rel="alternate" hreflang="{c}" href="{SITE}/{p}">' for c, p in [("de", "index.html"), ("en", "en/index.html"), ("es", "es/index.html"), ("x-default", "index.html")])
+    h = re.sub(r'(<link rel="canonical" href=")[^"]*', lambda m: m.group(1) + url, h)
+    h = re.sub(r'(<meta property="og:url" content=")[^"]*', lambda m: m.group(1) + url, h)
+    alt = "".join(f'<link rel="alternate" hreflang="{c}" href="{SITE}/{p}">' for c, p in [("de", ""), ("en", "en/index.html"), ("es", "es/index.html"), ("x-default", "")])
     h = re.sub(r'<link rel="alternate" hreflang[^>]*>', "", h)
     h = h.replace('<link rel="canonical"', alt + '<link rel="canonical"', 1)
     # Pfade zu gemeinsamen Dateien
@@ -264,7 +265,7 @@ if __name__ == "__main__":
     # hreflang in der deutschen Quelle sicherstellen
     src = ROOT / "index.html"
     s = src.read_text()
-    alt = "".join(f'<link rel="alternate" hreflang="{c}" href="{SITE}/{p}">' for c, p in [("de", "index.html"), ("en", "en/index.html"), ("es", "es/index.html"), ("x-default", "index.html")])
+    alt = "".join(f'<link rel="alternate" hreflang="{c}" href="{SITE}/{p}">' for c, p in [("de", ""), ("en", "en/index.html"), ("es", "es/index.html"), ("x-default", "")])
     s = re.sub(r'<link rel="alternate" hreflang[^>]*>', "", s)
     s = s.replace('<link rel="canonical"', alt + '<link rel="canonical"', 1)
     src.write_text(s)

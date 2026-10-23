@@ -21,6 +21,9 @@ Options -Indexes -ExecCGI
 # Technische Adresse web58000.greatnet-hosting.de leitet auf die Hauptdomain um (kein Doppel-Inhalt, kein unverschlüsselter Zugriff)
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  # www -> ohne www (eine Hauptadresse)
+  RewriteCond %{HTTP_HOST} ^www\.harzberge\.de$ [NC]
+  RewriteRule ^(.*)$ https://harzberge.de/$1 [R=301,L]
   RewriteCond %{HTTP_HOST} ^(www\.)?web58000\.greatnet-hosting\.de$ [NC]
   RewriteRule ^harzberge/?(.*)$ https://harzberge.de/$1 [R=301,L]
   RewriteCond %{HTTP_HOST} ^(www\.)?web58000\.greatnet-hosting\.de$ [NC]
