@@ -17,3 +17,12 @@ Options -Indexes -ExecCGI
     Header set Cache-Control "no-cache"
   </FilesMatch>
 </IfModule>
+
+# Technische Adresse web58000.greatnet-hosting.de leitet auf die Hauptdomain um (kein Doppel-Inhalt, kein unverschlüsselter Zugriff)
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^(www\.)?web58000\.greatnet-hosting\.de$ [NC]
+  RewriteRule ^harzberge/?(.*)$ https://harzberge.de/$1 [R=301,L]
+  RewriteCond %{HTTP_HOST} ^(www\.)?web58000\.greatnet-hosting\.de$ [NC]
+  RewriteRule ^(.*)$ https://harzberge.de/$1 [R=301,L]
+</IfModule>
