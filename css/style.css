@@ -194,3 +194,5 @@ footer h3{color:#fff;font-size:1.05rem}footer a{color:#fff}
 @media(max-width:860px){.nav ul li.lang{padding:.85rem .2rem;border-bottom:1px solid rgba(255,255,255,.1)}}
 .video-btn{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:5.2rem;z-index:2;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(8px);color:#fff;border-radius:999px;padding:.45rem 1rem;font:500 .88rem var(--body);cursor:pointer}.video-btn:hover{background:rgba(255,255,255,.25)}
 .btns{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}.btns .btn.light{margin-top:0}.btn.ghost{background:transparent;color:var(--on-dark);border:1px solid rgba(255,255,255,.35);margin-top:0}
+.rating{margin:0 0 .8rem;font-size:1rem;color:var(--on-dark)}.rating .stars{color:var(--lamp);letter-spacing:.1em}.rating b{font-size:1.15rem}
+.chips .chip-rate{text-decoration:none;color:inherit;font-weight:600}.chips .chip-rate:hover{text-decoration:underline}

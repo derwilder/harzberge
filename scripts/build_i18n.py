@@ -17,6 +17,8 @@ T = {
 ", oder fragen Sie Ihren Wunschtermin einfach an.": (", or simply enquire about your preferred dates.", ", o consulte directamente sus fechas deseadas."),
 "★ Bewertungen &amp; Fotos auf Google": ("★ Reviews &amp; photos on Google", "★ Opiniones y fotos en Google"),
 "Auf Google Maps ansehen": ("View on Google Maps", "Ver en Google Maps"),
+"von 5 · 15 Bewertungen auf Google": ("of 5 · 15 reviews on Google", "de 5 · 15 opiniones en Google"),
+"★ 4,5 · 15 Google-Bewertungen": ("★ 4.5 · 15 Google reviews", "★ 4,5 · 15 opiniones en Google"),
 "Zum Inhalt springen": ("Skip to content", "Saltar al contenido"),
 "Wohnung": ("Apartment", "Apartamento"),
 "Fotos": ("Photos", "Fotos"),
@@ -247,6 +249,7 @@ def build(code):
     h = re.sub(r'\b(href|src|data-full|srcset)="((?:css|js|img|fonts|data)/|favicon\.svg|impressum\.html)', r'\1="../\2', h)
     h = re.sub(r'(srcset="[^"]*?, )((?:img)/)', r'\1../\2', h)
     h = h.replace("0178 / 4307460", "+49 178 4307460").replace("03943 / 43074", "+49 3943 43074")
+    if code == "en": h = h.replace("<b>4,5</b>", "<b>4.5</b>")
     out = ROOT / code
     out.mkdir(exist_ok=True)
     (out / "index.html").write_text(h)
