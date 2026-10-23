@@ -38,7 +38,7 @@
   }
 
   // Daten: Minimum heute, Abreise nach Anreise
-  const iso = d => d.toISOString().slice(0, 10);
+  const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   const today = iso(new Date());
   const pair = (a, b) => {
     a.min = today;
@@ -47,40 +47,84 @@
   const qa = $('#q-an'), qb = $('#q-ab'), fa = $('#f-an'), fb = $('#f-ab');
   if (qa) { pair(qa, qb); pair(fa, fb); }
 
-  // Preisrechner
-  const eur = n => n.toLocaleString('de-DE') + ' €';
-  const n = $('#c-n'), p = $('#c-p'), b = $('#c-b'), d = $('#c-d');
-  const calc = () => {
-    const nights = Math.max(1, Math.min(60, +n.value || 1)), pers = +p.value, sets = Math.max(0, Math.min(6, +b.value || 0));
-    const extra = Math.max(0, pers - 2), base = nights * 50, add = nights * extra * 15, clean = 30, bed = sets * 5, dog = d.checked ? 25 : 0;
-    const lines = [[`${nights} ${nights === 1 ? 'Nacht' : 'Nächte'} × 50 €`, base]];
-    if (extra) lines.push([`${extra} weitere ${extra === 1 ? 'Person' : 'Personen'} × ${nights} × 15 €`, add]);
-    lines.push(['Endreinigung', clean]);
-    if (bed) lines.push([`Bettwäsche ${sets} × 5 €`, bed]);
-    if (dog) lines.push(['Hund pauschal', dog]);
-    $('#c-l').innerHTML = lines.map(([t, v]) => `<li><span>${t}</span><span>${eur(v)}</span></li>`).join('');
-    $('#c-t').textContent = eur(base + add + clean + bed + dog);
-    return { nights, pers, sets, total: base + add + clean + bed + dog };
+  // Belegungskalender: liest data/belegung.json (täglich von Harz-Travel abgeglichen)
+  const MON = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+  const days = {};
+  const pad = x => String(x).padStart(2, '0');
+  const key = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
+  // belegt ist ein Tag, wenn die Nacht davor/danach nicht frei ist: 'b' ganz, 'a' ab Anreise, 'w' Wechsel
+  const nightBusy = k => { const v = days[k]; return v === 'b' || v === 'a' || v === 'w'; };
+  const rangeFree = (a, b) => {
+    for (let t = new Date(a + 'T12:00'); iso(t) < b; t.setDate(t.getDate() + 1)) if (nightBusy(iso(t))) return false;
+    return true;
   };
-  if (n) { [n, p, b, d].forEach(el => el.addEventListener('input', calc)); calc(); }
+  const calEl = $('#cal');
+  if (calEl) {
+    const box = $('#cal-months'); let start = new Date(); start.setDate(1);
+    const render = () => {
+      const w = matchMedia('(min-width:560px)').matches ? 2 : 1; box.innerHTML = '';
+      for (let i = 0; i < w; i++) {
+        const dt = new Date(start.getFullYear(), start.getMonth() + i, 1), y = dt.getFullYear(), m = dt.getMonth();
+        const lead = (dt.getDay() + 6) % 7, n = new Date(y, m + 1, 0).getDate();
+        let g = '';
+        for (let k = 0; k < lead; k++) g += '<span></span>';
+        for (let d = 1; d <= n; d++) {
+          const k = key(y, m, d), v = days[k], past = k < today;
+          const cls = past ? 'past' : v === 'b' ? 'busy' : v === 'a' || v === 'd' || v === 'w' ? 'half' : 'free';
+          const label = past ? '' : v === 'b' ? 'belegt' : v ? 'Wechseltag' : 'frei';
+          g += `<button type="button" class="day ${cls}" data-d="${k}" ${past || v === 'b' ? 'disabled' : ''} aria-label="${d}. ${MON[m]} ${y} ${label}">${d}</button>`;
+        }
+        box.insertAdjacentHTML('beforeend', `<div class="cal-m"><h4>${MON[m]} ${y}</h4><div class="cal-wd"><span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span></div><div class="cal-g">${g}</div></div>`);
+      }
+      paint();
+    };
+    const paint = () => {
+      const a = fa.value, b = fb.value;
+      $$('.day', box).forEach(el => { const k = el.dataset.d; el.classList.toggle('sel', k === a || k === b); el.classList.toggle('in', !!(a && b && k > a && k < b)); });
+    };
+    $('.prev', calEl).addEventListener('click', () => { const p = new Date(start.getFullYear(), start.getMonth() - 1, 1); if (iso(p) >= today.slice(0, 8) + '01') { start = p; render(); } });
+    $('.next', calEl).addEventListener('click', () => { start.setMonth(start.getMonth() + 1); render(); });
+    box.addEventListener('click', e => {
+      const el = e.target.closest('.day'); if (!el) return; const k = el.dataset.d;
+      if (!fa.value || (fa.value && fb.value) || k <= fa.value) { fa.value = k; fb.value = ''; fb.min = k; }
+      else { fb.value = k; }
+      paint(); checkRange();
+      if (fb.value) $('#anfrage').scrollIntoView({ behavior: 'smooth' });
+    });
+    addEventListener('resize', render);
+    [fa, fb].forEach(el => el.addEventListener('change', paint));
+    fetch('data/belegung.json').then(r => r.json()).then(d => {
+      Object.assign(days, d.tage);
+      const s = new Date(d.stand); if (!isNaN(s)) $('#cal-stand').textContent = `Tag anklicken, um Anreise und Abreise zu wählen. Stand: ${s.toLocaleDateString('de-DE')}, übernommen von Harz-Travel.`;
+      render(); checkRange();
+    }).catch(() => { box.innerHTML = '<p class="muted">Der Kalender ist gerade nicht erreichbar. Bitte fragen Sie Ihren Wunschtermin einfach an.</p>'; });
+  }
+
+  // Wunschzeitraum prüfen (belegte Nächte)
+  const warn = $('#f-warn');
+  function checkRange() {
+    if (!warn) return true;
+    const bad = fa.value && fb.value && !rangeFree(fa.value, fb.value);
+    warn.hidden = !bad;
+    warn.textContent = bad ? 'In diesem Zeitraum ist die Wohnung laut Kalender bereits belegt. Bitte wählen Sie andere Daten.' : '';
+    return !bad;
+  }
+  [fa, fb].forEach(el => el && el.addEventListener('change', checkRange));
 
   // Schnellanfrage -> Formular
   const quick = $('#quick');
   if (quick) quick.addEventListener('submit', e => {
     e.preventDefault();
     fa.value = qa.value; fb.min = qa.value || today; fb.value = qb.value; $('#f-pe').value = $('#q-pe').value;
-    location.hash = '#anfrage';
+    checkRange(); location.hash = '#anfrage';
     setTimeout(() => (qa.value ? $('#f-na') : fa).focus({ preventScroll: true }), 400);
   });
 
-  // Anfrage: öffnet das E-Mail-Programm
+  // Anfrage: wird als normales Formular an das Buchungsportal Harz-Travel gesendet (neuer Tab)
   const form = $('#anfrage-form');
   if (form) form.addEventListener('submit', e => {
-    e.preventDefault();
-    const f = Object.fromEntries(new FormData(form));
-    const body = ['Buchungsanfrage Ferienwohnung Harzberge.de', '',
-      `Anreise: ${f.anreise}`, `Abreise: ${f.abreise}`, `Personen: ${f.personen}`, `Hund: ${f.hund}`, '',
-      `Name: ${f.name}`, `E-Mail: ${f.email}`, `Telefon: ${f.telefon || '-'}`, '', f.nachricht || ''].join('\n');
-    location.href = 'mailto:info@harzberge.de?subject=' + encodeURIComponent(`Buchungsanfrage ${f.anreise} – ${f.abreise}`) + '&body=' + encodeURIComponent(body);
+    const de = v => v.split('-').reverse().join('.');
+    if (!form.reportValidity() || !checkRange()) { e.preventDefault(); return; }
+    $('#h-an').value = de(fa.value); $('#h-ab').value = de(fb.value); $('#f-zr').value = `${de(fa.value)} - ${de(fb.value)}`;
   });
 })();
