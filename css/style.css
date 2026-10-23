@@ -116,10 +116,10 @@ dialog.lb p{text-align:center;margin:.8rem 0 0}
 .walk li{display:grid;grid-template-columns:1fr auto;gap:.3rem .8rem}
 .walk .rn{font-weight:600}.walk .rt{color:var(--lamp);font-size:.92rem}
 .walk .bar{grid-column:1/-1;height:8px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
-.walk .bar i{display:block;height:100%;width:calc(var(--m) * 10%);min-width:10px;background:linear-gradient(90deg,var(--lamp),#f6d79a);border-radius:99px}
+.walk .bar i{display:block;height:100%;width:calc(var(--m) * 100% / 30);min-width:10px;background:linear-gradient(90deg,var(--lamp),#f6d79a);border-radius:99px}
 
 /* Preise */
-.prices{display:grid;gap:1.4rem;grid-template-columns:1fr 1fr;align-items:start}
+.prices{display:grid;gap:1.4rem;grid-template-columns:1fr;max-width:44rem}
 @media(max-width:860px){.prices{grid-template-columns:1fr}}
 .plist{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:.6rem 1.6rem 1.2rem}
 .plist>div{display:flex;justify-content:space-between;gap:1rem;padding:1rem 0;border-bottom:1px dashed var(--line);align-items:baseline}
@@ -130,6 +130,7 @@ dialog.lb p{text-align:center;margin:.8rem 0 0}
 .cal-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem}.cal-top h3{margin:0}
 .cal-nav{display:flex;gap:.4rem}.cal-nav button{width:2.4rem;height:2.4rem;border-radius:50%;border:1px solid var(--line);background:var(--tint);color:var(--ink);font:600 1.3rem/1 var(--body);cursor:pointer}
 .cal-nav button:hover{background:var(--fir);color:var(--on-dark)}
+.cal{max-width:56rem}
 .cal-months{display:grid;gap:1.4rem;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
 .cal-m h4{font:700 1rem var(--display);margin:0 0 .5rem;text-align:center}
 .cal-wd,.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
@@ -181,3 +182,6 @@ footer h3{color:#fff;font-size:1.05rem}footer a{color:#fff}
   .mobbar .btn{flex:1;padding:.8rem 1rem}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+.sent{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:2rem;outline:none}.sent h3{font-size:1.6rem}.sent[hidden]{display:none}
+#anfrage-form[hidden]{display:none}

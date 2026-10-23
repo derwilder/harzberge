@@ -126,5 +126,10 @@
     const de = v => v.split('-').reverse().join('.');
     if (!form.reportValidity() || !checkRange()) { e.preventDefault(); return; }
     $('#h-an').value = de(fa.value); $('#h-ab').value = de(fb.value); $('#f-zr').value = `${de(fa.value)} - ${de(fb.value)}`;
+    const sent = $('#sent');
+    setTimeout(() => { form.hidden = true; sent.hidden = false; sent.focus({ preventScroll: true }); sent.scrollIntoView({ block: 'center' }); }, 300);
+  });
+  const again = $('#sent-again');
+  if (again) again.addEventListener('click', () => { $('#sent').hidden = true; form.hidden = false; form.reset(); fa.focus();
   });
 })();
