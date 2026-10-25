@@ -288,7 +288,11 @@
   if (next) { next.addEventListener('click', go2); $('#back1').addEventListener('click', () => step(false)); }
   if ($('#st1')) { $('#st1').addEventListener('click', () => step(false)); $('#st2').addEventListener('click', go2); }
 
-  // Absenden: wird als normales Formular an das Buchungsportal Harz-Travel gesendet (neuer Tab)
+  const SENT = {'de': {'ok': 'Anfrage erfolgreich versendet. Vielen Dank!', 'err': 'Die Anfrage konnte nicht übermittelt werden. Bitte prüfen Sie Ihre Angaben und senden Sie sie erneut oder rufen Sie uns an: +49 178 4307460.'}, 'en': {'ok': 'Enquiry sent successfully. Thank you!', 'err': 'The enquiry could not be sent. Please check your details and try again, or call us: +49 178 4307460.'}, 'es': {'ok': 'Consulta enviada correctamente. ¡Gracias!', 'err': 'No se pudo enviar la consulta. Revise sus datos e inténtelo de nuevo o llámenos: +49 178 4307460.'}, 'nl': {'ok': 'Aanvraag succesvol verzonden. Hartelijk dank!', 'err': 'De aanvraag kon niet worden verzonden. Controleer uw gegevens en probeer het opnieuw, of bel ons: +49 178 4307460.'}}[lang] || {};
+  const toast = (msg, err) => { const t = $('#toast'); if (!t) return; $('#toast-t').textContent = msg; t.classList.toggle('err', !!err); t.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => { t.hidden = true; }, err ? 20000 : 12000); };
+  if ($('#toast-x')) $('#toast-x').addEventListener('click', () => { $('#toast').hidden = true; });
+
+  // Absenden: das Formular geht an das Buchungsportal Harz-Travel, das danach auf diese Seite zurückleitet
   if (form) form.addEventListener('submit', e => {
     if (s2.hidden) { e.preventDefault(); go2(); return; }
     const de = v => v.split('-').reverse().join('.');
@@ -296,9 +300,29 @@
     $('#h-an').value = de(fa.value); $('#h-ab').value = de(fb.value); $('#f-zr').value = `${de(fa.value)} - ${de(fb.value)}`;
     const t = quote.lines.map(([x, v]) => `${x}: ${v} €`).join('; ');
     $('#h-msg').value = `Preisindikation über harzberge.de (unverbindlich): ${quote.total} € (${t}). Personen: ${quote.pers}, Kinder: ${quote.kids}, Hunde: ${quote.dogs}, Bettensätze: ${quote.sets}.${$('#f-ms').value.trim() ? `\n\n${$('#f-ms').value.trim()}` : ''}`;
-    const sent = $('#sent');
-    setTimeout(() => { form.hidden = true; sent.hidden = false; sent.focus({ preventScroll: true }); sent.scrollIntoView({ block: 'center' }); }, 300);
+    // Rückkehr-Adresse: Harz-Travel leitet auf die Seite zurück, von der die Anfrage kam (Referer)
+    try { sessionStorage.setItem('harz-sent', String(Date.now())); } catch (_) {}
+    history.replaceState(null, '', location.pathname + '?anfrage=1');
+    let m = document.querySelector('meta[name=referrer]');
+    if (!m) { m = document.createElement('meta'); m.name = 'referrer'; document.head.appendChild(m); }
+    m.content = 'no-referrer-when-downgrade';
   });
+
+  // Rückkehr vom Buchungsportal: Erfolgsmeldung (oder Fehlerhinweis) sofort sichtbar zeigen
+  (() => {
+    let flag = null; try { flag = sessionStorage.getItem('harz-sent'); } catch (_) {}
+    const back = /[?&]anfrage=1/.test(location.search) || (flag && Date.now() - +flag < 6e5);
+    if (!back || !form) return;
+    const hash = location.hash; try { sessionStorage.removeItem('harz-sent'); } catch (_) {}
+    history.replaceState(null, '', location.pathname);
+    const sent = $('#sent');
+    if (hash === '#emailkontakt') {
+      toast(SENT.err, true); step(false); calc();
+    } else {
+      form.hidden = true; sent.hidden = false; toast(SENT.ok);
+      setTimeout(() => { goTo(sent); }, 400);
+    }
+  })();
   const again = $('#sent-again');
   if (again) again.addEventListener('click', () => { $('#sent').hidden = true; form.hidden = false; form.reset(); step(false); calc(); labels(); });
 })();

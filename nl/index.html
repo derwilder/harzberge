@@ -15,7 +15,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="preload" href="../fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../css/style.css?v=e1ecc476">
+<link rel="stylesheet" href="../css/style.css?v=8310f2fb">
 <script type="application/ld+json">{
  "@context": "https://schema.org",
  "@graph": [
@@ -219,6 +219,7 @@
     <li><a class="btn sm" href="index.html#anfrage">Nu aanvragen</a></li>
   </ul>
 </div></header>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden><span id="toast-t"></span><button type="button" id="toast-x" aria-label="Sluiten">×</button></div>
 <main id="main">
 <section class="hero">
   <svg class="scene" viewBox="0 0 1600 700" preserveAspectRatio="xMaxYMax slice" aria-hidden="true" focusable="false">
@@ -329,8 +330,8 @@
       <li><svg class="i " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /> <rect x="2" y="4" width="20" height="16" rx="2" /> </svg><span>E-mail<br><b>info@harzberge.de</b></span></li>
     </ul>
   </div>
-  <div class="sent" id="sent" role="status" tabindex="-1" hidden><h3>Aanvraag verzonden</h3><p>Uw aanvraag is verzonden naar ons boekingsportaal Harz-Travel. U ziet de bevestiging in het nieuw geopende tabblad en ontvangt die ook per e-mail.</p><p class="muted small">Geen tabblad geopend of geen bevestiging ontvangen? Sta pop-ups toe voor deze pagina of neem direct contact met ons op: <a href="tel:+491784307460">+49 178 4307460</a> · <a href="mailto:info@harzberge.de">info@harzberge.de</a></p><button type="button" class="btn alt" id="sent-again">Nieuwe aanvraag</button></div>
-  <form id="anfrage-form" action="https://ext.travanto.de/submit/Anfrage" method="post" target="_blank" novalidate>
+  <div class="sent" id="sent" role="status" tabindex="-1" hidden><h3>Aanvraag succesvol verzonden</h3><p>Hartelijk dank! Uw aanvraag is verzonden naar ons boekingsportaal Harz-Travel. We nemen zo snel mogelijk contact met u op en u ontvangt ook een bevestiging per e-mail.</p><p class="muted small">Geen bevestiging ontvangen? Kijk ook in uw spammap of neem direct contact met ons op: <a href="tel:+491784307460">+49 178 4307460</a> · <a href="mailto:info@harzberge.de">info@harzberge.de</a></p><button type="button" class="btn alt" id="sent-again">Nieuwe aanvraag</button></div>
+  <form id="anfrage-form" action="https://ext.travanto.de/submit/Anfrage" method="post" novalidate>
     <input type="hidden" name="objekt" value="92720"><input type="hidden" name="objekt_nr" value="92720">
     <input type="hidden" name="objektname" value="Ferienwohnung am Barockgarten"><input type="hidden" name="max_personen" value="6">
     <input type="hidden" name="nein"><input type="hidden" name="Realname"><input type="hidden" name="zeitraum" id="f-zr">
@@ -357,7 +358,7 @@
       <label>Postcode en plaats (optioneel)<input type="text" name="ort" autocomplete="postal-code"></label>
       <label class="full">Bericht (optioneel)<textarea id="f-ms" rows="3"></textarea></label>
       <div class="full actions"><button class="btn" type="submit">Aanvraag versturen</button><button class="btn ghost-d" type="button" id="back1">‹ Gegevens wijzigen</button></div>
-      <p class="muted small full">De aanvraag wordt verzonden via ons boekingsportaal Harz-Travel (Travanto) en opent daarvoor in een nieuw tabblad. Gratis en vrijblijvend. Details in de <a href="../impressum.html">privacyverklaring (Duits)</a>.</p>
+      <p class="muted small full">De aanvraag wordt verzonden via ons boekingsportaal Harz-Travel (Travanto), daarna keert u automatisch terug naar deze pagina. Gratis en vrijblijvend. Details in de <a href="../impressum.html">privacyverklaring (Duits)</a>.</p>
     </div>
   </form>
 </div></section>
@@ -383,6 +384,6 @@
   <p class="copy">© Harzberge.de · Wernigerode</p>
 </div></footer>
 <div class="mobbar"><a class="btn" href="index.html#anfrage">Aanvragen</a><a class="btn alt" href="tel:+491784307460"><svg class="i " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" /> </svg>Bellen</a></div>
-<script src="../js/main.js?v=c57b00bf" defer></script>
+<script src="../js/main.js?v=ea312e24" defer></script>
 </body>
 </html>
