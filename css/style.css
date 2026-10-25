@@ -255,3 +255,4 @@ button.dp.empty{color:var(--muted)}
   .nav ul li.lang{padding:.85rem .2rem;border-bottom:1px solid rgba(255,255,255,.1)}
 }
 html[lang=nl] h1{font-size:clamp(2rem,6.4vw,4.8rem);hyphens:manual}
+.legal h3{font-size:1.05rem;margin:1.5rem 0 .4rem;letter-spacing:0}.legal .toc{margin:0 0 1.2rem;color:var(--muted)}.legal .toc a{color:var(--accent)}.legal h2{scroll-margin-top:90px}
