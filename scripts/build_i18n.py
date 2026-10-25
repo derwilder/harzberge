@@ -273,7 +273,21 @@ def build(code):
     return sorted(miss)
 
 
+def bust():
+    """Hängt an CSS/JS-Links eine Versionsnummer (Inhalts-Hash), damit Browser nach Änderungen neu laden."""
+    import hashlib
+    for page in ("index.html", "impressum.html", "404.html"):
+        f = ROOT / page
+        if not f.exists(): continue
+        t = f.read_text()
+        for asset in ("css/style.css", "js/main.js"):
+            v = hashlib.md5((ROOT / asset).read_bytes()).hexdigest()[:8]
+            t = re.sub(re.escape(asset) + r"(\?v=[0-9a-f]+)?(?=\")", f"{asset}?v={v}", t)
+        f.write_text(t)
+
+
 if __name__ == "__main__":
+    bust()
     # hreflang in der deutschen Quelle sicherstellen
     src = ROOT / "index.html"
     s = src.read_text()
