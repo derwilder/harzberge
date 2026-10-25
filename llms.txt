@@ -16,6 +16,7 @@
 ## Seiten
 - [Startseite (Deutsch) mit allen Infos, Fotos, Preisen, FAQ und Anfrage](https://harzberge.de/)
 - [English version](https://harzberge.de/en/index.html)
+- [Nederlandse versie](https://harzberge.de/nl/index.html)
 - [Versión en español](https://harzberge.de/es/index.html)
 - [Belegung als JSON](https://harzberge.de/data/belegung.json)
 - [Impressum & Datenschutz](https://harzberge.de/impressum.html)

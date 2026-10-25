@@ -10,6 +10,16 @@
   btn.addEventListener('click', () => btn.setAttribute('aria-expanded', list.classList.toggle('open')));
   list.addEventListener('click', e => { if (e.target.closest('a')) { list.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); } });
 
+  // Sprachwahl: Auswahlmenü, merkt die Wahl (für die automatische Sprache beim ersten Besuch)
+  const lw = $('.lang');
+  if (lw) {
+    const lb = $('.lang-btn', lw), setO = o => { lw.classList.toggle('open', o); lb.setAttribute('aria-expanded', String(o)); };
+    lb.addEventListener('click', e => { e.stopPropagation(); setO(!lw.classList.contains('open')); });
+    document.addEventListener('click', e => { if (!e.composedPath().includes(lw)) setO(false); });
+    addEventListener('keydown', e => { if (e.key === 'Escape') { setO(false); } });
+    $$('a[data-lang]', lw).forEach(a => a.addEventListener('click', () => { try { localStorage.setItem('harz-lang', a.dataset.lang); } catch (_) {} }));
+  }
+
   // Hero-Video: eigenes Video (kein Drittanbieter), startet automatisch nur bei schnellem Netz, ohne Datensparmodus/reduzierte Bewegung, am Desktop
   const vid = $('.hero-video video'), cn = navigator.connection || {};
   const okVideo = vid && matchMedia('(min-width:861px)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches
@@ -60,13 +70,17 @@
       q: { empty: 'Choose arrival and departure and your price appears here instantly.', night: 'night', nights: 'nights', extra: n => `${n} additional ${n === 1 ? 'guest' : 'guests'}`, short: 'Short-stay surcharge (up to 2 nights)', clean: 'Final cleaning', dog: n => n === 1 ? 'Dog' : `${n} dogs`, bed: n => `Bed linen, ${n} ${n === 1 ? 'set' : 'sets'}`, total: 'Total price', note: 'Non-binding calculation. Cot and high chair are free of charge. We confirm the final price in our reply.', pick: (a, b, p, k) => `${a} to ${b}, ${p} ${p === 1 ? 'guest' : 'guests'}${k ? `, of which ${k} ${k === 1 ? 'child' : 'children'}` : ''}` } },
     es: { mon: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'], wd: ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá', 'Do'], busy: 'ocupado', swap: 'día de cambio', free: 'libre', loc: 'es-ES',
       hint: 'Haga clic en un día para elegir llegada y salida.', stand: 'Actualizado', from: 'procede de Harz-Travel', down: 'El calendario no está disponible en este momento. Envíenos su consulta con las fechas deseadas.', bad: 'Según el calendario, el apartamento ya está ocupado en este periodo. Elija otras fechas.',
-      q: { empty: 'Elija llegada y salida y aquí verá su precio al instante.', night: 'noche', nights: 'noches', extra: n => `${n} ${n === 1 ? 'persona adicional' : 'personas adicionales'}`, short: 'Suplemento de estancia corta (hasta 2 noches)', clean: 'Limpieza final', dog: n => n === 1 ? 'Perro' : `${n} perros`, bed: n => `Ropa de cama, ${n} ${n === 1 ? 'juego' : 'juegos'}`, total: 'Precio total', note: 'Cálculo sin compromiso. Cuna y trona son gratuitas. Confirmaremos el precio final en nuestra respuesta.', pick: (a, b, p, k) => `${a} a ${b}, ${p} ${p === 1 ? 'persona' : 'personas'}${k ? `, de ellos ${k} ${k === 1 ? 'niño' : 'niños'}` : ''}` } }
+      q: { empty: 'Elija llegada y salida y aquí verá su precio al instante.', night: 'noche', nights: 'noches', extra: n => `${n} ${n === 1 ? 'persona adicional' : 'personas adicionales'}`, short: 'Suplemento de estancia corta (hasta 2 noches)', clean: 'Limpieza final', dog: n => n === 1 ? 'Perro' : `${n} perros`, bed: n => `Ropa de cama, ${n} ${n === 1 ? 'juego' : 'juegos'}`, total: 'Precio total', note: 'Cálculo sin compromiso. Cuna y trona son gratuitas. Confirmaremos el precio final en nuestra respuesta.', pick: (a, b, p, k) => `${a} a ${b}, ${p} ${p === 1 ? 'persona' : 'personas'}${k ? `, de ellos ${k} ${k === 1 ? 'niño' : 'niños'}` : ''}` } },
+    nl: { mon: ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'], wd: ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'], busy: 'bezet', swap: 'wisseldag', free: 'vrij', loc: 'nl-NL',
+      hint: 'Klik op een dag om aankomst en vertrek te kiezen.', stand: 'Bijgewerkt', from: 'afkomstig van Harz-Travel', down: 'De kalender is momenteel niet beschikbaar. Vraag gewoon uw gewenste periode aan.', bad: 'Volgens de kalender is het appartement in deze periode al bezet. Kies andere data.',
+      q: { empty: 'Kies aankomst en vertrek en u ziet hier meteen uw prijs.', night: 'nacht', nights: 'nachten', extra: n => `${n} extra ${n === 1 ? 'persoon' : 'personen'}`, short: 'Toeslag kort verblijf (tot 2 nachten)', clean: 'Eindschoonmaak', dog: n => n === 1 ? 'Hond' : `${n} honden`, bed: n => `Beddengoed, ${n} ${n === 1 ? 'set' : 'sets'}`, total: 'Totaalprijs', note: 'Vrijblijvende berekening. Kinderreisbed en kinderstoel zijn gratis. De definitieve prijs bevestigen we in ons antwoord.', pick: (a, b, p, k) => `${a} tot ${b}, ${p} ${p === 1 ? 'persoon' : 'personen'}${k ? `, waarvan ${k} ${k === 1 ? 'kind' : 'kinderen'}` : ''}` } }
   }[lang];
   const MON = TX.mon;
   TX.dp = ({
     de: { pick: 'Datum wählen', arr: 'Anreise wählen', dep: 'Abreise wählen', na: 'Durchgestrichene Tage sind nicht verfügbar.', nights: n => `${n} ${n === 1 ? 'Nacht' : 'Nächte'}`, clear: 'Zurücksetzen', prev: 'Vorheriger Monat', next: 'Nächster Monat' },
     en: { pick: 'Select date', arr: 'Select arrival', dep: 'Select departure', na: 'Struck-through days are not available.', nights: n => `${n} ${n === 1 ? 'night' : 'nights'}`, clear: 'Reset', prev: 'Previous month', next: 'Next month' },
-    es: { pick: 'Elegir fecha', arr: 'Elegir llegada', dep: 'Elegir salida', na: 'Los días tachados no están disponibles.', nights: n => `${n} ${n === 1 ? 'noche' : 'noches'}`, clear: 'Restablecer', prev: 'Mes anterior', next: 'Mes siguiente' }
+    es: { pick: 'Elegir fecha', arr: 'Elegir llegada', dep: 'Elegir salida', na: 'Los días tachados no están disponibles.', nights: n => `${n} ${n === 1 ? 'noche' : 'noches'}`, clear: 'Restablecer', prev: 'Mes anterior', next: 'Mes siguiente' },
+    nl: { pick: 'Datum kiezen', arr: 'Aankomst kiezen', dep: 'Vertrek kiezen', na: 'Doorgestreepte dagen zijn niet beschikbaar.', nights: n => `${n} ${n === 1 ? 'nacht' : 'nachten'}`, clear: 'Wissen', prev: 'Vorige maand', next: 'Volgende maand' }
   })[lang];
   const days = {};
   const pad = x => String(x).padStart(2, '0');

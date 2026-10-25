@@ -6,6 +6,8 @@ Nur index.html bearbeiten, danach `python3 scripts/build_i18n.py` ausführen.
 """
 import json, re, sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from i18n_nl import NL
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://harzberge.de"
@@ -201,8 +203,31 @@ T = {
 "Küche": ("Kitchen", "Cocina"),
 }
 
-LANGS = {"en": (0, "en", "en_GB"), "es": (1, "es", "es_ES")}
-PAIRS = {k: v for k, v in T.items()}
+FLAGS = {
+ "de": '<svg viewBox="0 0 5 3" aria-hidden="true"><rect width="5" height="1" fill="#000"/><rect y="1" width="5" height="1" fill="#d00"/><rect y="2" width="5" height="1" fill="#fc0"/></svg>',
+ "en": '<svg viewBox="0 0 60 36" aria-hidden="true"><rect width="60" height="36" fill="#012169"/><path d="M0 0 60 36M60 0 0 36" stroke="#fff" stroke-width="7"/><path d="M0 0 60 36M60 0 0 36" stroke="#c8102e" stroke-width="3"/><path d="M30 0V36M0 18H60" stroke="#fff" stroke-width="11"/><path d="M30 0V36M0 18H60" stroke="#c8102e" stroke-width="6"/></svg>',
+ "es": '<svg viewBox="0 0 4 3" aria-hidden="true"><rect width="4" height="3" fill="#c60b1e"/><rect y=".75" width="4" height="1.5" fill="#ffc400"/></svg>',
+ "nl": '<svg viewBox="0 0 9 6" aria-hidden="true"><rect width="9" height="2" fill="#ae1c28"/><rect y="2" width="9" height="2" fill="#fff"/><rect y="4" width="9" height="2" fill="#21468b"/></svg>',
+}
+NAMES = {"de": "Deutsch", "en": "English", "es": "Español", "nl": "Nederlands"}
+CHEV = '<svg class="chev" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+
+
+def switcher(cur):
+    """Sprachwahl als Auswahlmenü; Links relativ zur jeweiligen Seite."""
+    def href(c):
+        if cur == "de": return "index.html" if c == "de" else f"{c}/index.html"
+        return "../index.html" if c == "de" else ("index.html" if c == cur else f"../{c}/index.html")
+    def item(c):
+        cur_attr = ' aria-current="true"' if c == cur else ""
+        return f'<li><a href="{href(c)}" hreflang="{c}" lang="{c}" data-lang="{c}"{cur_attr}>{FLAGS[c]}<span class="ln">{NAMES[c]}</span></a></li>'
+    items = "".join(item(c) for c in ("de", "en", "nl", "es"))
+    return (f'<!--lang--><li class="lang"><button type="button" class="lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="Sprache / Language / Taal / Idioma">{FLAGS[cur]}<span>{cur.upper()}</span>{CHEV}</button>'
+            f'<ul class="lang-menu">{items}</ul></li><!--/lang-->')
+
+
+LANGS = {"en": (0, "en", "en_GB"), "es": (1, "es", "es_ES"), "nl": (2, "nl", "nl_NL")}
+PAIRS = {k: (v[0], v[1], NL.get(k, k)) for k, v in T.items()}
 
 
 def tr(s, i):
@@ -230,17 +255,7 @@ def build(code):
         return '<script type="application/ld+json">' + json.dumps(d, ensure_ascii=False, indent=1) + "</script>"
     h = re.sub(r'<script type="application/ld\+json">(.*?)</script>', ld, h, flags=re.S)
 
-    # Sprachumschalter: relative Ziele je Seite
-    tgt = {"de": "../index.html", "en": "index.html" if code == "en" else "../en/index.html", "es": "index.html" if code == "es" else "../es/index.html"}
-    def sw(m):
-        b = m.group(0)
-        b = b.replace('href="index.html" hreflang="de"', f'href="{tgt["de"]}" hreflang="de"')
-        b = b.replace('href="en/index.html" hreflang="en"', f'href="{tgt["en"]}" hreflang="en"')
-        b = b.replace('href="es/index.html" hreflang="es"', f'href="{tgt["es"]}" hreflang="es"')
-        b = re.sub(r' aria-current="true"', '', b)
-        b = re.sub(rf'(hreflang="{code}")', r'\1 aria-current="true"', b)
-        return b
-    h = re.sub(r'<li class="lang"[^>]*>.*?</li>', sw, h, count=1, flags=re.S)
+    h = re.sub(r"<!--lang-->.*?<!--/lang-->", lambda m: switcher(code), h, count=1, flags=re.S)
 
     # Textknoten
     def text(m):
@@ -261,7 +276,7 @@ def build(code):
     url = f"{SITE}/{code}/index.html"
     h = re.sub(r'(<link rel="canonical" href=")[^"]*', lambda m: m.group(1) + url, h)
     h = re.sub(r'(<meta property="og:url" content=")[^"]*', lambda m: m.group(1) + url, h)
-    alt = "".join(f'<link rel="alternate" hreflang="{c}" href="{SITE}/{p}">' for c, p in [("de", ""), ("en", "en/index.html"), ("es", "es/index.html"), ("x-default", "")])
+    alt = "".join(f'<link rel="alternate" hreflang="{c}" href="{SITE}/{p}">' for c, p in [("de", ""), ("en", "en/index.html"), ("nl", "nl/index.html"), ("es", "es/index.html"), ("x-default", "")])
     h = re.sub(r'<link rel="alternate" hreflang[^>]*>', "", h)
     h = h.replace('<link rel="canonical"', alt + '<link rel="canonical"', 1)
     # Pfade zu gemeinsamen Dateien
@@ -289,10 +304,14 @@ def bust():
 
 if __name__ == "__main__":
     bust()
+    _src = ROOT / "index.html"; _t = _src.read_text()
+    if "<!--lang-->" not in _t:
+        _t = re.sub(r'<li class="lang"[^>]*>.*?</li>(?=\s*<li><a class="btn sm")', "<!--lang--><!--/lang-->", _t, count=1, flags=re.S)
+    _t = re.sub(r"<!--lang-->.*?<!--/lang-->", lambda m: switcher("de"), _t, count=1, flags=re.S); _src.write_text(_t)
     # hreflang in der deutschen Quelle sicherstellen
     src = ROOT / "index.html"
     s = src.read_text()
-    alt = "".join(f'<link rel="alternate" hreflang="{c}" href="{SITE}/{p}">' for c, p in [("de", ""), ("en", "en/index.html"), ("es", "es/index.html"), ("x-default", "")])
+    alt = "".join(f'<link rel="alternate" hreflang="{c}" href="{SITE}/{p}">' for c, p in [("de", ""), ("en", "en/index.html"), ("nl", "nl/index.html"), ("es", "es/index.html"), ("x-default", "")])
     s = re.sub(r'<link rel="alternate" hreflang[^>]*>', "", s)
     s = s.replace('<link rel="canonical"', alt + '<link rel="canonical"', 1)
     src.write_text(s)
