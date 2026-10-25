@@ -262,6 +262,7 @@
     form.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
   if (next) { next.addEventListener('click', go2); $('#back1').addEventListener('click', () => step(false)); }
+  if ($('#st1')) { $('#st1').addEventListener('click', () => step(false)); $('#st2').addEventListener('click', go2); }
 
   // Absenden: wird als normales Formular an das Buchungsportal Harz-Travel gesendet (neuer Tab)
   if (form) form.addEventListener('submit', e => {

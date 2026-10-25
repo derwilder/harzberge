@@ -42,6 +42,7 @@ T = {
 "PLZ und Ort (optional)": ("Postcode and town (optional)", "Código postal y localidad (opcional)"),
 "Nachricht (optional)": ("Message (optional)", "Mensaje (opcional)"),
 "‹ Angaben ändern": ("‹ Change details", "‹ Cambiar datos"),
+"Endreinigung, Zuschläge, Hund und Bettwäsche zeigt der Preisrechner unverbindlich bei der Anfrage.": ("Final cleaning, surcharges, dog and bed linen are shown by the price calculator, without obligation, when you enquire.", "La limpieza final, los suplementos, el perro y la ropa de cama los muestra la calculadora de precios, sin compromiso, al consultar."),
 "Zum Inhalt springen": ("Skip to content", "Saltar al contenido"),
 "Wohnung": ("Apartment", "Apartamento"),
 "Fotos": ("Photos", "Fotos"),
