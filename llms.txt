@@ -7,8 +7,8 @@
 - Größe/Kapazität: 90 m², bis 4 Personen plus Kinder (Anfrage bis 6 Personen)
 - Lage: ca. 10 Gehminuten zu Marktplatz und Schloss Wernigerode; drei Spielplätze im Umkreis von 5 Minuten
 - Ausstattung: Wohn- und Essbereich, Küche, Bad mit Regendusche, Schlafzimmer mit Doppelbett, Zimmer mit zwei Einzelbetten, Garten mit Holzkohlegrill, kostenloses WLAN, kostenloser Parkplatz, Kinderstuhl und Kinderbett auf Wunsch kostenlos
-- Preis: 50 EUR pro Nacht für 2 Personen, jede weitere Person 15 EUR pro Nacht (inkl. Handtücher, WLAN, Strom, Wasser, Parkplatz)
-- Zusatzkosten: Endreinigung 30 EUR einmalig; Bettwäsche 5 EUR pro Bettensatz (auf Wunsch); Hund 25 EUR pauschal pro Aufenthalt
+- Preis: 60 EUR pro Nacht für 1 bis 2 Personen, jede weitere Person 20 EUR pro Nacht (inkl. Handtücher, WLAN, Strom, Wasser, Parkplatz)
+- Zusatzkosten: Endreinigung 35 EUR einmalig; Kurzurlaub-Zuschlag 30 EUR bei bis zu 2 Nächten; Bettwäsche 5 EUR pro Bettensatz (auf Wunsch); Hund 25 EUR pro Aufenthalt; Kinderreisebett und Kinderhochstuhl kostenlos
 - Kontakt: info@harzberge.de, Tel. +49 178 4307460 und +49 3943 43074
 - Buchung: Anfrageformular auf der Startseite (Abwicklung über das Portal Harz-Travel), Hunde willkommen (25 EUR pauschal)
 - Belegung: aktuelle belegte Tage maschinenlesbar unter https://harzberge.de/data/belegung.json (b = belegt, a = nur Anreise, d = nur Abreise, w = Wechseltag; fehlende Tage sind frei; Stand im Feld "stand")
