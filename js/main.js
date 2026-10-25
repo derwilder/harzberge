@@ -239,8 +239,16 @@
   const eur = n => n.toLocaleString(TX.loc, { minimumFractionDigits: 0 }) + ' €';
   const quoteEl = $('#quote'), next = $('#to-step2'), fpe = $('#f-pe'), fki = $('#f-ki'), fhu = $('#f-hu'), fbw = $('#f-bw');
   let quote = null;
+  // Kinder und Bettensätze richten sich nach der Personenzahl (mind. 1 Erwachsener, höchstens 1 Bettensatz je Person)
+  const fitOptions = (sel, max) => {
+    const keep = Math.min(+sel.value || 0, max);
+    if (sel.options.length !== max + 1) sel.innerHTML = Array.from({ length: max + 1 }, (_, i) => `<option value="${i}">${i}</option>`).join('');
+    sel.value = String(keep);
+  };
+  const limits = () => { const p = +fpe.value || 1; fitOptions(fki, Math.max(0, p - 1)); fitOptions(fbw, p); };
   const calc = () => {
     if (!quoteEl) return;
+    limits();
     const free = checkRange();
     const n = fa.value && fb.value ? Math.round((new Date(fb.value) - new Date(fa.value)) / 864e5) : 0;
     if (n < 1) { quote = null; quoteEl.innerHTML = `<p class="muted">${TX.q.empty}</p>`; next.disabled = true; return; }
