@@ -52,6 +52,8 @@
   // Daten: Minimum heute, Abreise nach Anreise
   const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
   const today = iso(new Date());
+  // sanft scrollen, notfalls (gedrosselter Tab, Bewegung reduziert) direkt springen
+  const goTo = el => { const y0 = scrollY; el.scrollIntoView({ behavior: 'smooth' }); setTimeout(() => { if (Math.abs(scrollY - y0) < 10) el.scrollIntoView({ behavior: 'instant' }); }, 700); };
   const pair = (a, b) => {
     a.min = today;
     a.addEventListener('change', () => { b.min = a.value || today; if (b.value && b.value <= a.value) b.value = ''; });
@@ -122,7 +124,7 @@
       if (!fa.value || (fa.value && fb.value) || k <= fa.value) { fa.value = k; fb.value = ''; fb.min = k; }
       else { fb.value = k; }
       paint(); fa.dispatchEvent(new Event('change'));
-      if (fb.value) $('#anfrage').scrollIntoView({ behavior: 'smooth' });
+      if (fb.value) goTo($('#anfrage'));
     });
     addEventListener('resize', render);
     [fa, fb].forEach(el => el.addEventListener('change', paint));
@@ -262,7 +264,7 @@
   if (quick) quick.addEventListener('submit', e => {
     e.preventDefault();
     fa.value = qa.value; fb.value = qb.value; fpe.value = $('#q-pe').value;
-    fa.dispatchEvent(new Event('change')); location.hash = '#anfrage';
+    fa.dispatchEvent(new Event('change')); goTo($('#anfrage')); history.replaceState(null, '', '#anfrage');
   });
 
   // Zweistufig: 1 Preis berechnen, 2 Kontaktdaten
@@ -273,7 +275,7 @@
     const d = v => new Date(v).toLocaleDateString(TX.loc);
     $('#pick').innerHTML = `${TX.q.pick(d(fa.value), d(fb.value), quote.pers, quote.kids)} · <b>${eur(quote.total)}</b>`;
     step(true); $('input[name=vorname]', form).focus({ preventScroll: true });
-    form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    goTo(form);
   };
   if (next) { next.addEventListener('click', go2); $('#back1').addEventListener('click', () => step(false)); }
   if ($('#st1')) { $('#st1').addEventListener('click', () => step(false)); $('#st2').addEventListener('click', go2); }
