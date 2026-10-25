@@ -63,6 +63,11 @@
       q: { empty: 'Elija llegada y salida y aquí verá su precio al instante.', night: 'noche', nights: 'noches', extra: n => `${n} ${n === 1 ? 'persona adicional' : 'personas adicionales'}`, short: 'Suplemento de estancia corta (hasta 2 noches)', clean: 'Limpieza final', dog: n => n === 1 ? 'Perro' : `${n} perros`, bed: n => `Ropa de cama, ${n} ${n === 1 ? 'juego' : 'juegos'}`, total: 'Precio total', note: 'Cálculo sin compromiso. Cuna y trona son gratuitas. Confirmaremos el precio final en nuestra respuesta.', pick: (a, b, p, k) => `${a} a ${b}, ${p} ${p === 1 ? 'persona' : 'personas'}${k ? `, de ellos ${k} ${k === 1 ? 'niño' : 'niños'}` : ''}` } }
   }[lang];
   const MON = TX.mon;
+  TX.dp = ({
+    de: { pick: 'Datum wählen', arr: 'Anreise wählen', dep: 'Abreise wählen', na: 'Durchgestrichene Tage sind nicht verfügbar.', nights: n => `${n} ${n === 1 ? 'Nacht' : 'Nächte'}`, clear: 'Zurücksetzen', prev: 'Vorheriger Monat', next: 'Nächster Monat' },
+    en: { pick: 'Select date', arr: 'Select arrival', dep: 'Select departure', na: 'Struck-through days are not available.', nights: n => `${n} ${n === 1 ? 'night' : 'nights'}`, clear: 'Reset', prev: 'Previous month', next: 'Next month' },
+    es: { pick: 'Elegir fecha', arr: 'Elegir llegada', dep: 'Elegir salida', na: 'Los días tachados no están disponibles.', nights: n => `${n} ${n === 1 ? 'noche' : 'noches'}`, clear: 'Restablecer', prev: 'Mes anterior', next: 'Mes siguiente' }
+  })[lang];
   const days = {};
   const pad = x => String(x).padStart(2, '0');
   const key = (y, m, d) => `${y}-${pad(m + 1)}-${pad(d)}`;
@@ -125,6 +130,94 @@
   }
   [fa, fb].forEach(el => el && el.addEventListener('change', checkRange));
 
+
+  // Datumsauswahl wie bei Hotelportalen: Anreise wählen, dann Abreise; belegte Tage sind gesperrt
+  const pop = document.createElement('div');
+  pop.className = 'dpop'; pop.hidden = true; pop.setAttribute('role', 'dialog');
+  document.body.appendChild(pop);
+  let cur = null;
+  const pd = s => new Date(s + 'T12:00');
+  const addDay = (s, n) => { const d = pd(s); d.setDate(d.getDate() + n); return iso(d); };
+  const fmtD = s => pd(s).toLocaleDateString(TX.loc, { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+  const lastDep = arr => { for (let i = 1, d = addDay(arr, 1); i < 400; i++, d = addDay(d, 1)) if (nightBusy(d)) return d; return '9999-12-31'; };
+  const labels = () => $$('.dp').forEach(b => { const v = document.getElementById(b.dataset.for).value; b.textContent = v ? fmtD(v) : TX.dp.pick; b.classList.toggle('empty', !v); });
+  const fire = el => el.dispatchEvent(new Event('change', { bubbles: true }));
+  const closePop = () => { pop.hidden = true; if (cur) { cur.trig.setAttribute('aria-expanded', 'false'); cur = null; } };
+  const state = k => {
+    const A = cur.a.value;
+    if (k < today) return 'past';
+    if (cur.mode === 'arr' || !A || k <= A) return nightBusy(k) ? 'busy' : 'ok';
+    return k <= cur.limit ? 'ok' : 'busy';
+  };
+  const mark = hover => {
+    const A = cur.a.value, B = cur.mode === 'dep' && hover ? hover : cur.b.value;
+    $$('.dp-g button[data-d]', pop).forEach(el => {
+      const k = el.dataset.d, inr = A && B && k > A && k < B;
+      el.classList.toggle('sa', k === A); el.classList.toggle('sb', !!B && k === B && !!A);
+      el.classList.toggle('span', k === A && !!B && !!A); el.classList.toggle('in', !!inr);
+    });
+    const n = A && B ? Math.round((pd(B) - pd(A)) / 864e5) : 0;
+    $('.dp-n', pop).textContent = n > 0 ? TX.dp.nights(n) : '';
+  };
+  const drawPop = () => {
+    const many = matchMedia('(min-width:701px)').matches ? 2 : 1;
+    const first = cur.month;
+    let html = `<div class="dp-h"><span>${cur.mode === 'arr' ? TX.dp.arr : TX.dp.dep}</span><span class="dp-nav"><button type="button" data-nav="-1" aria-label="${TX.dp.prev}" ${first <= new Date(new Date().getFullYear(), new Date().getMonth(), 1) ? 'disabled' : ''}>‹</button><button type="button" data-nav="1" aria-label="${TX.dp.next}">›</button></span></div><div class="dp-ms">`;
+    for (let i = 0; i < many; i++) {
+      const dt = new Date(first.getFullYear(), first.getMonth() + i, 1), y = dt.getFullYear(), m = dt.getMonth();
+      const lead = (dt.getDay() + 6) % 7, nd = new Date(y, m + 1, 0).getDate();
+      let g = '<span></span>'.repeat(lead);
+      for (let d = 1; d <= nd; d++) {
+        const k = key(y, m, d), s = state(k);
+        g += `<button type="button" data-d="${k}" class="${s === 'busy' ? 'busy' : ''}${k === today ? ' today' : ''}" ${s === 'ok' ? '' : 'disabled'} aria-label="${fmtD(k)}">${d}</button>`;
+      }
+      html += `<div class="dp-m"><h4>${MON[m]} ${y}</h4><div class="dp-wd">${TX.wd.map(x => `<span>${x}</span>`).join('')}</div><div class="dp-g">${g}</div></div>`;
+    }
+    pop.innerHTML = html + `</div><div class="dp-f"><span>${TX.dp.na} <b class="dp-n"></b></span><button type="button" data-clear>${TX.dp.clear}</button></div>`;
+    mark();
+  };
+  const place = () => {
+    if (matchMedia('(max-width:700px)').matches) { pop.style.top = ''; pop.style.left = ''; return; }
+    const r = cur.trig.getBoundingClientRect(), w = pop.offsetWidth;
+    pop.style.top = `${r.bottom + scrollY + 6}px`;
+    pop.style.left = `${Math.max(8, Math.min(r.left + scrollX, innerWidth - w - 8))}px`;
+  };
+  const openPop = trig => {
+    const id = trig.dataset.for, isArr = /-an$/.test(id), a = document.getElementById(id.replace(/-ab$/, '-an')), b = document.getElementById(id.replace(/-an$/, '-ab'));
+    if (cur) cur.trig.setAttribute('aria-expanded', 'false');
+    const mode = isArr || !a.value ? 'arr' : 'dep';
+    const base = (mode === 'dep' ? a.value : a.value || today);
+    cur = { a, b, trig, mode, limit: a.value ? lastDep(a.value) : '', month: new Date(pd(base).getFullYear(), pd(base).getMonth(), 1) };
+    trig.setAttribute('aria-expanded', 'true');
+    pop.hidden = false; drawPop(); place();
+  };
+  const pickDay = k => {
+    const A = cur.a.value;
+    if (cur.mode === 'arr' || !A || k <= A) {
+      cur.a.value = k;
+      const clearB = cur.b.value && (cur.b.value <= k || cur.b.value > lastDep(k));
+      if (clearB) cur.b.value = '';
+      fire(cur.a); if (clearB) fire(cur.b);
+      cur.mode = 'dep'; cur.limit = lastDep(k); drawPop(); place();
+    } else {
+      cur.b.value = k; fire(cur.b); closePop();
+    }
+  };
+  pop.addEventListener('click', e => {
+    const dbtn = e.target.closest('button[data-d]'), nav = e.target.closest('[data-nav]');
+    if (dbtn) pickDay(dbtn.dataset.d);
+    else if (nav) { cur.month = new Date(cur.month.getFullYear(), cur.month.getMonth() + +nav.dataset.nav, 1); drawPop(); place(); }
+    else if (e.target.closest('[data-clear]')) { cur.a.value = ''; cur.b.value = ''; fire(cur.a); fire(cur.b); cur.mode = 'arr'; cur.limit = ''; drawPop(); }
+  });
+  pop.addEventListener('mouseover', e => { const b = e.target.closest('button[data-d]'); if (cur && cur.mode === 'dep' && b && !b.disabled && b.dataset.d > cur.a.value) mark(b.dataset.d); });
+  pop.addEventListener('mouseleave', () => cur && mark());
+  $$('.dp').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); cur && cur.trig === b && !pop.hidden ? closePop() : openPop(b); }));
+  document.addEventListener('click', e => { if (cur && !e.composedPath().includes(pop)) closePop(); });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && cur) { const t = cur.trig; closePop(); t.focus(); } });
+  addEventListener('resize', () => { if (cur) { drawPop(); place(); } });
+  [qa, qb, fa, fb].forEach(el => el && el.addEventListener('change', labels));
+  labels();
+
   // Preisrechner (Preise laut Vermieterin, unverbindlich)
   const P = { night: 60, extra: 20, clean: 35, short: 30, shortMax: 2, dog: 25, bed: 5 };
   const eur = n => n.toLocaleString(TX.loc, { minimumFractionDigits: 0 }) + ' €';
@@ -154,7 +247,7 @@
   const quick = $('#quick');
   if (quick) quick.addEventListener('submit', e => {
     e.preventDefault();
-    fa.value = qa.value; fb.min = qa.value || today; fb.value = qb.value; fpe.value = $('#q-pe').value;
+    fa.value = qa.value; fb.value = qb.value; fpe.value = $('#q-pe').value;
     fa.dispatchEvent(new Event('change')); location.hash = '#anfrage';
   });
 
@@ -162,7 +255,7 @@
   const form = $('#anfrage-form'), s1 = $('#step1'), s2 = $('#step2');
   const step = two => { s1.hidden = two; s2.hidden = !two; $('#st1').classList.toggle('on', !two); $('#st2').classList.toggle('on', two); };
   const go2 = () => {
-    if (!fa.value || !fb.value || !quote || !checkRange()) { if (fa && !fa.value) fa.focus(); else if (fb && !fb.value) fb.focus(); return; }
+    if (!fa.value || !fb.value || !quote || !checkRange()) { if (!fa.value) $('.dp[data-for=f-an]').click(); else if (!fb.value) $('.dp[data-for=f-ab]').click(); return; }
     const d = v => new Date(v).toLocaleDateString(TX.loc);
     $('#pick').innerHTML = `${TX.q.pick(d(fa.value), d(fb.value), quote.pers, quote.kids)} · <b>${eur(quote.total)}</b>`;
     step(true); $('input[name=vorname]', form).focus({ preventScroll: true });
@@ -182,5 +275,5 @@
     setTimeout(() => { form.hidden = true; sent.hidden = false; sent.focus({ preventScroll: true }); sent.scrollIntoView({ block: 'center' }); }, 300);
   });
   const again = $('#sent-again');
-  if (again) again.addEventListener('click', () => { $('#sent').hidden = true; form.hidden = false; form.reset(); step(false); calc(); fa.focus(); });
+  if (again) again.addEventListener('click', () => { $('#sent').hidden = true; form.hidden = false; form.reset(); step(false); calc(); labels(); });
 })();

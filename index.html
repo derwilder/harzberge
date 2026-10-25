@@ -14,7 +14,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/bricolage.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=59d3f0d4">
+<link rel="stylesheet" href="css/style.css?v=2cbd69fa">
 <script type="application/ld+json">{
  "@context": "https://schema.org",
  "@graph": [
@@ -253,8 +253,8 @@
   </div>
 </section>
 <div class="wrap"><form class="quick" id="quick" aria-label="Schnellanfrage">
-  <label>Anreise<input type="date" name="anreise" id="q-an"></label>
-  <label>Abreise<input type="date" name="abreise" id="q-ab"></label>
+  <label>Anreise<span class="dpw"><input type="hidden" id="q-an"><button type="button" class="dp" data-for="q-an" aria-haspopup="dialog"></button></span></label>
+  <label>Abreise<span class="dpw"><input type="hidden" id="q-ab"><button type="button" class="dp" data-for="q-ab" aria-haspopup="dialog"></button></span></label>
   <label>Personen<select name="personen" id="q-pe"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></label>
   <button class="btn" type="submit">Verfügbarkeit anfragen</button>
 </form></div>
@@ -359,8 +359,8 @@
     <input type="hidden" name="anreise" id="h-an"><input type="hidden" name="abreise" id="h-ab"><input type="hidden" name="anfrage" id="h-msg">
     <ol class="steps full" aria-hidden="true"><li class="on" id="st1">1 · Preis berechnen</li><li id="st2">2 · Ihre Kontaktdaten</li></ol>
     <div class="step1 full" id="step1">
-      <label>Anreise*<input type="date" id="f-an" required></label>
-      <label>Abreise*<input type="date" id="f-ab" required></label>
+      <label>Anreise*<span class="dpw"><input type="hidden" id="f-an"><button type="button" class="dp" data-for="f-an" aria-haspopup="dialog"></button></span></label>
+      <label>Abreise*<span class="dpw"><input type="hidden" id="f-ab"><button type="button" class="dp" data-for="f-ab" aria-haspopup="dialog"></button></span></label>
       <label>Personen* (max. 6)<select name="personen" id="f-pe" required><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></label>
       <label>davon Kinder<select name="kinder" id="f-ki"><option value="0">0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
       <label>Haustiere<select name="haustiere" id="f-hu"><option value="0">Keine</option><option value="1">1 Hund</option><option value="2">2 Hunde</option></select></label>
@@ -393,6 +393,6 @@
   <p class="copy">© Harzberge.de · Wernigerode</p>
 </div></footer>
 <div class="mobbar"><a class="btn" href="index.html#anfrage">Anfragen</a><a class="btn alt" href="tel:+491784307460"><svg class="i " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" /> </svg>Anrufen</a></div>
-<script src="js/main.js?v=321705f4" defer></script>
+<script src="js/main.js?v=cd17fb2d" defer></script>
 </body>
 </html>
