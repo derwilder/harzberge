@@ -33,6 +33,8 @@ NL = {
 "Vielen Dank! Ihre Anfrage wurde an unser Buchungsportal Harz-Travel übermittelt. Wir melden uns schnellstmöglich bei Ihnen, außerdem erhalten Sie eine Bestätigung per E-Mail.": "Hartelijk dank! Uw aanvraag is verzonden naar ons boekingsportaal Harz-Travel. We nemen zo snel mogelijk contact met u op en u ontvangt ook een bevestiging per e-mail.",
 "Keine Bestätigung erhalten? Bitte schauen Sie auch im Spam-Ordner nach oder kontaktieren Sie uns direkt:": "Geen bevestiging ontvangen? Kijk ook in uw spammap of neem direct contact met ons op:",
 "Die Anfrage wird über unser Buchungsportal Harz-Travel (Travanto) übermittelt, danach kehren Sie automatisch auf diese Seite zurück. Kostenlos und unverbindlich. Details in der": "De aanvraag wordt verzonden via ons boekingsportaal Harz-Travel (Travanto), daarna keert u automatisch terug naar deze pagina. Gratis en vrijblijvend. Details in de",
+"Die Anfrage wird über unser Buchungsportal Harz-Travel (Travanto) übermittelt, Sie bleiben dabei auf dieser Seite. Kostenlos und unverbindlich. Details in der": "De aanvraag wordt via ons boekingsportaal Harz-Travel (Travanto) verzonden terwijl u op deze pagina blijft. Gratis en vrijblijvend. Details in de",
+"Telefon*": "Telefoon*",
 "Zum Inhalt springen": "Naar de inhoud",
 "Wohnung": "Appartement",
 "Fotos": "Foto's",

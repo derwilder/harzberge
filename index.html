@@ -331,10 +331,10 @@
     </ul>
   </div>
   <div class="sent" id="sent" role="status" tabindex="-1" hidden><h3>Anfrage erfolgreich versendet</h3><p>Vielen Dank! Ihre Anfrage wurde an unser Buchungsportal Harz-Travel übermittelt. Wir melden uns schnellstmöglich bei Ihnen, außerdem erhalten Sie eine Bestätigung per E-Mail.</p><p class="muted small">Keine Bestätigung erhalten? Bitte schauen Sie auch im Spam-Ordner nach oder kontaktieren Sie uns direkt: <a href="tel:+491784307460">+49 178 4307460</a> · <a href="mailto:info@harzberge.de">info@harzberge.de</a></p><button type="button" class="btn alt" id="sent-again">Neue Anfrage</button></div>
-  <form id="anfrage-form" action="https://ext.travanto.de/submit/Anfrage" method="post" novalidate>
+  <form id="anfrage-form" action="https://ext.travanto.de/submit/Anfrage" method="post" target="harz-frame" novalidate>
     <input type="hidden" name="objekt" value="92720"><input type="hidden" name="objekt_nr" value="92720">
     <input type="hidden" name="objektname" value="Ferienwohnung am Barockgarten"><input type="hidden" name="max_personen" value="6">
-    <input type="hidden" name="nein"><input type="hidden" name="Realname"><input type="hidden" name="zeitraum" id="f-zr">
+    <input type="hidden" name="nein"><input type="hidden" name="Realname"><input type="text" name="ja" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><input type="hidden" name="zeitraum" id="f-zr">
     <input type="hidden" name="anreise" id="h-an"><input type="hidden" name="abreise" id="h-ab"><input type="hidden" name="anfrage" id="h-msg">
     <ol class="steps full"><li><button type="button" class="on" id="st1">1 · Preis berechnen</button></li><li><button type="button" id="st2">2 · Ihre Kontaktdaten</button></li></ol>
     <div class="step1 full" id="step1">
@@ -353,14 +353,15 @@
       <label>Vorname*<input type="text" name="vorname" autocomplete="given-name" required></label>
       <label>Nachname*<input type="text" name="nachname" autocomplete="family-name" required></label>
       <label>E-Mail*<input type="email" name="email" autocomplete="email" required></label>
-      <label>Telefon (für Rückfragen)<input type="tel" name="telefon" autocomplete="tel"></label>
+      <label>Telefon*<input type="tel" name="telefon" autocomplete="tel" required></label>
       <label>Straße und Hausnummer (optional)<input type="text" name="anschrift" autocomplete="street-address"></label>
       <label>PLZ und Ort (optional)<input type="text" name="ort" autocomplete="postal-code"></label>
       <label class="full">Nachricht (optional)<textarea id="f-ms" rows="3"></textarea></label>
       <div class="full actions"><button class="btn" type="submit">Anfrage absenden</button><button class="btn ghost-d" type="button" id="back1">‹ Angaben ändern</button></div>
-      <p class="muted small full">Die Anfrage wird über unser Buchungsportal Harz-Travel (Travanto) übermittelt, danach kehren Sie automatisch auf diese Seite zurück. Kostenlos und unverbindlich. Details in der <a href="impressum.html">Datenschutzerklärung</a>.</p>
+      <p class="muted small full">Die Anfrage wird über unser Buchungsportal Harz-Travel (Travanto) übermittelt, Sie bleiben dabei auf dieser Seite. Kostenlos und unverbindlich. Details in der <a href="impressum.html">Datenschutzerklärung</a>.</p>
     </div>
   </form>
+  <iframe name="harz-frame" id="harz-frame" title="" tabindex="-1" aria-hidden="true" style="display:none"></iframe>
 </div></section>
 <section class="section tint" id="faq"><div class="wrap narrow">
   <div class="head"><p class="eyebrow">Häufige Fragen</p><h2>Gut zu wissen</h2></div>
@@ -384,6 +385,6 @@
   <p class="copy">© Harzberge.de · Wernigerode</p>
 </div></footer>
 <div class="mobbar"><a class="btn" href="index.html#anfrage">Anfragen</a><a class="btn alt" href="tel:+491784307460"><svg class="i " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" /> </svg>Anrufen</a></div>
-<script src="js/main.js?v=ea312e24" defer></script>
+<script src="js/main.js?v=20b52a85" defer></script>
 </body>
 </html>

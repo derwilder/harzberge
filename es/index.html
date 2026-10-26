@@ -331,10 +331,10 @@
     </ul>
   </div>
   <div class="sent" id="sent" role="status" tabindex="-1" hidden><h3>Consulta enviada correctamente</h3><p>¡Gracias! Su consulta se ha enviado a nuestro portal de reservas Harz-Travel. Nos pondremos en contacto con usted lo antes posible y además recibirá una confirmación por correo electrónico.</p><p class="muted small">¿No ha recibido confirmación? Revise también su carpeta de spam o contáctenos directamente: <a href="tel:+491784307460">+49 178 4307460</a> · <a href="mailto:info@harzberge.de">info@harzberge.de</a></p><button type="button" class="btn alt" id="sent-again">Nueva consulta</button></div>
-  <form id="anfrage-form" action="https://ext.travanto.de/submit/Anfrage" method="post" novalidate>
+  <form id="anfrage-form" action="https://ext.travanto.de/submit/Anfrage" method="post" target="harz-frame" novalidate>
     <input type="hidden" name="objekt" value="92720"><input type="hidden" name="objekt_nr" value="92720">
     <input type="hidden" name="objektname" value="Ferienwohnung am Barockgarten"><input type="hidden" name="max_personen" value="6">
-    <input type="hidden" name="nein"><input type="hidden" name="Realname"><input type="hidden" name="zeitraum" id="f-zr">
+    <input type="hidden" name="nein"><input type="hidden" name="Realname"><input type="text" name="ja" value="" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0"><input type="hidden" name="zeitraum" id="f-zr">
     <input type="hidden" name="anreise" id="h-an"><input type="hidden" name="abreise" id="h-ab"><input type="hidden" name="anfrage" id="h-msg">
     <ol class="steps full"><li><button type="button" class="on" id="st1">1 · Calcular precio</button></li><li><button type="button" id="st2">2 · Sus datos de contacto</button></li></ol>
     <div class="step1 full" id="step1">
@@ -353,14 +353,15 @@
       <label>Nombre*<input type="text" name="vorname" autocomplete="given-name" required></label>
       <label>Apellidos*<input type="text" name="nachname" autocomplete="family-name" required></label>
       <label>Correo electrónico*<input type="email" name="email" autocomplete="email" required></label>
-      <label>Teléfono (para consultas)<input type="tel" name="telefon" autocomplete="tel"></label>
+      <label>Teléfono*<input type="tel" name="telefon" autocomplete="tel" required></label>
       <label>Calle y número (opcional)<input type="text" name="anschrift" autocomplete="street-address"></label>
       <label>Código postal y localidad (opcional)<input type="text" name="ort" autocomplete="postal-code"></label>
       <label class="full">Mensaje (opcional)<textarea id="f-ms" rows="3"></textarea></label>
       <div class="full actions"><button class="btn" type="submit">Enviar consulta</button><button class="btn ghost-d" type="button" id="back1">‹ Cambiar datos</button></div>
-      <p class="muted small full">La consulta se envía a través de nuestro portal de reservas Harz-Travel (Travanto) y después vuelve automáticamente a esta página. Gratuita y sin compromiso. Detalles en la <a href="../impressum.html">política de privacidad (en alemán)</a>.</p>
+      <p class="muted small full">La consulta se envía a través de nuestro portal de reservas Harz-Travel (Travanto) y usted permanece en esta página. Gratuita y sin compromiso. Detalles en la <a href="../impressum.html">política de privacidad (en alemán)</a>.</p>
     </div>
   </form>
+  <iframe name="harz-frame" id="harz-frame" title="" tabindex="-1" aria-hidden="true" style="display:none"></iframe>
 </div></section>
 <section class="section tint" id="faq"><div class="wrap narrow">
   <div class="head"><p class="eyebrow">Preguntas frecuentes</p><h2>Conviene saber</h2></div>
@@ -384,6 +385,6 @@
   <p class="copy">© Harzberge.de · Wernigerode</p>
 </div></footer>
 <div class="mobbar"><a class="btn" href="index.html#anfrage">Consultar</a><a class="btn alt" href="tel:+491784307460"><svg class="i " viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384" /> </svg>Llamar</a></div>
-<script src="../js/main.js?v=ea312e24" defer></script>
+<script src="../js/main.js?v=20b52a85" defer></script>
 </body>
 </html>
