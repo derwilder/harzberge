@@ -35,6 +35,7 @@ NL = {
 "Die Anfrage wird über unser Buchungsportal Harz-Travel (Travanto) übermittelt, danach kehren Sie automatisch auf diese Seite zurück. Kostenlos und unverbindlich. Details in der": "De aanvraag wordt verzonden via ons boekingsportaal Harz-Travel (Travanto), daarna keert u automatisch terug naar deze pagina. Gratis en vrijblijvend. Details in de",
 "Die Anfrage wird über unser Buchungsportal Harz-Travel (Travanto) übermittelt, Sie bleiben dabei auf dieser Seite. Kostenlos und unverbindlich. Details in der": "De aanvraag wordt via ons boekingsportaal Harz-Travel (Travanto) verzonden terwijl u op deze pagina blijft. Gratis en vrijblijvend. Details in de",
 "Telefon*": "Telefoon*",
+"Für Preisberechnung und Anfrage ist JavaScript nötig. Bitte aktivieren Sie JavaScript für diese Seite oder rufen Sie uns an:": "Voor de prijsberekening en aanvraag is JavaScript nodig. Schakel JavaScript in voor deze pagina of bel ons:",
 "Zum Inhalt springen": "Naar de inhoud",
 "Wohnung": "Appartement",
 "Fotos": "Foto's",

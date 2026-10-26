@@ -51,6 +51,7 @@ T = {
 "Die Anfrage wird über unser Buchungsportal Harz-Travel (Travanto) übermittelt, danach kehren Sie automatisch auf diese Seite zurück. Kostenlos und unverbindlich. Details in der": ("The enquiry is sent via our booking portal Harz-Travel (Travanto), after which you return to this page automatically. Free and non-binding. Details in the", "La consulta se envía a través de nuestro portal de reservas Harz-Travel (Travanto) y después vuelve automáticamente a esta página. Gratuita y sin compromiso. Detalles en la"),
 "Die Anfrage wird über unser Buchungsportal Harz-Travel (Travanto) übermittelt, Sie bleiben dabei auf dieser Seite. Kostenlos und unverbindlich. Details in der": ("The enquiry is sent via our booking portal Harz-Travel (Travanto) while you stay on this page. Free and non-binding. Details in the", "La consulta se envía a través de nuestro portal de reservas Harz-Travel (Travanto) y usted permanece en esta página. Gratuita y sin compromiso. Detalles en la"),
 "Telefon*": ("Phone*", "Teléfono*"),
+"Für Preisberechnung und Anfrage ist JavaScript nötig. Bitte aktivieren Sie JavaScript für diese Seite oder rufen Sie uns an:": ("Price calculation and enquiries need JavaScript. Please enable JavaScript for this page or call us:", "Para calcular el precio y consultar se necesita JavaScript. Active JavaScript para esta página o llámenos:"),
 "Zum Inhalt springen": ("Skip to content", "Saltar al contenido"),
 "Wohnung": ("Apartment", "Apartamento"),
 "Fotos": ("Photos", "Fotos"),

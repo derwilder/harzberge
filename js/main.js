@@ -21,17 +21,31 @@
     $$('a[data-lang]', lw).forEach(a => a.addEventListener('click', () => { try { localStorage.setItem('harz-lang', a.dataset.lang); } catch (_) {} }));
   }
 
-  // Hero-Video: eigenes Video (kein Drittanbieter), startet automatisch nur bei schnellem Netz, ohne Datensparmodus/reduzierte Bewegung, am Desktop
-  const vid = $('.hero-video video'), cn = navigator.connection || {};
-  const okVideo = vid && matchMedia('(min-width:861px)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches
-    && !cn.saveData && (!cn.effectiveType || cn.effectiveType === '4g');
-  if (okVideo) {
+  // Hero-Video: eigenes Video (kein Drittanbieter). Startet automatisch nur am Desktop bei schneller Verbindung,
+  // ohne Datensparmodus und ohne "reduzierte Bewegung". Sonst (Handy, gesperrtes Autoplay) startet es per Knopf.
+  const vid = $('.hero-video video'), vbtn = $('#vbtn'), cn = navigator.connection || {};
+  if (vid && vbtn) {
+    const VL = { de: ['▶ Video abspielen', '❚❚ Video pausieren'], en: ['▶ Play video', '❚❚ Pause video'], es: ['▶ Reproducir vídeo', '❚❚ Pausar vídeo'], nl: ['▶ Video afspelen', '❚❚ Video pauzeren'] }[document.documentElement.lang] || ['▶', '❚❚'];
+    const label = on => { vbtn.textContent = on ? VL[1] : VL[0]; };
+    let loaded = false;
     const start = () => {
-      vid.src = vid.dataset.src;
-      vid.addEventListener('playing', () => vid.parentNode.classList.add('on'), { once: true });
-      vid.play().catch(() => {});
+      if (!loaded) {
+        const mp4 = vid.canPlayType('video/mp4; codecs="avc1.42E01E"');
+        vid.src = mp4 ? vid.dataset.src : (vid.dataset.webm || vid.dataset.src); loaded = true;
+        vid.addEventListener('playing', () => vid.parentNode.classList.add('on'), { once: true });
+      }
+      return vid.play();
     };
-    if (document.readyState === 'complete') setTimeout(start, 300); else addEventListener('load', () => setTimeout(start, 300));
+    vid.addEventListener('playing', () => label(true));
+    vid.addEventListener('pause', () => label(false));
+    vbtn.hidden = false; label(false);
+    vbtn.addEventListener('click', () => { if (loaded && !vid.paused) vid.pause(); else start().catch(() => {}); });
+    const auto = matchMedia('(min-width:861px)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches
+      && !cn.saveData && (!cn.effectiveType || cn.effectiveType === '4g');
+    if (auto) {
+      const go = () => setTimeout(() => start().catch(() => { loaded = false; label(false); }), 300);
+      if (document.readyState === 'complete') go(); else addEventListener('load', go);
+    }
   }
 
   // Lightbox
