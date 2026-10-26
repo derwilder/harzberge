@@ -234,7 +234,7 @@ button.dp.empty{color:var(--muted)}
 .dpop .dp-f{display:flex;justify-content:space-between;gap:1rem;margin-top:.7rem;font-size:.82rem;color:var(--muted)}
 .dpop .dp-f button{border:0;background:none;color:var(--accent);font:600 .85rem var(--body);cursor:pointer;padding:0}
 @media(max-width:700px){.dpop{position:fixed;left:8px!important;right:8px;bottom:8px;top:auto!important;max-height:86vh;overflow:auto}.dp-m{width:100%}.dp-ms{display:block}}
-@media(max-width:700px){.hero{background:linear-gradient(#4488b3,#4f9bc4 40%)}.scene{top:auto;bottom:0;height:60%}}
+@media(max-width:700px){.hero{background:linear-gradient(#4488b3,#4f9bc4 54%)}.scene{top:auto;bottom:0;height:46%}}
 
 .lang{position:relative;display:flex;align-items:center}
 .lang-btn{display:inline-flex;align-items:center;gap:.45rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:inherit;border-radius:999px;padding:.35rem .7rem;font:600 .85rem var(--body);cursor:pointer}
